@@ -1,5 +1,5 @@
 export const App = () => ({
-    setup: () => {
+    setup() {
         const template = /* HTML */ `
             <div class="exampleClass">
                 <Card></Card>

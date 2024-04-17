@@ -1,8 +1,8 @@
 import { generateStore } from '../node_modules/@flow/store/generateStore.js'
 
-export const cardStore = generateStore('cardStore', ({ variable }) => {
-    const cardTitle = variable('Bound Card title.')
-    const cardDescription = variable('Card description.')
+export const cardStore = generateStore('cardStore', ({ ref }) => {
+    const cardTitle = ref('Bound Card title.')
+    const cardDescription = ref('Card description.')
 
     return {
         cardTitle,

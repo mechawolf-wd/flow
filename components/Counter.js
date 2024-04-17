@@ -1,19 +1,19 @@
 export const Counter = () => ({
-    setup: (props, { variable, observe, dispatchEvent, getStore, watch, onMounted, onBeforeMount }) => {
-        let counter = variable(1);
+    setup(props, { ref, computed, emit, useStore, watch, onMounted, onBeforeMount }) {
+        let counter = ref(1);
 
-        const computedValue = observe(() => {
+        const computedValue = computed(() => {
             return counter.value % 2 === 0 ? 'Even.' : 'Odd.'
         })
 
-        const { cardTitle } = getStore('cardStore');
+        const { cardTitle } = useStore('cardStore');
 
         const incrementCounter = () => {
-            dispatchEvent('increment', { effect: () => { counter.value += 1 } });
+            emit('increment', { effect: () => { counter.value += 1 } });
         };
 
         const decrementCounter = () => {
-            dispatchEvent('decrement', { effect: () => { counter.value -= 1 } });
+            emit('decrement', { effect: () => { counter.value -= 1 } });
         };
 
         watch(counter, (newValue, oldValue) => {
@@ -35,7 +35,7 @@ export const Counter = () => ({
             cardTitle.value = 'Two way binding works!';
         };
 
-        const humans = variable([
+        const humans = ref([
             {
                 name: 'Bart',
                 age: 21

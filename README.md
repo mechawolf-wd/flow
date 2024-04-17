@@ -25,7 +25,7 @@
 ## Implemented Features:
 
 1. Variable interpolation with `<Paint></Paint>` tags, similar to Vue's `{{ }}` delimiters.
-2. Reactive global stores accessed via the `getStore` method.
+2. Reactive global stores accessed via the `useStore` method.
 3. Reactive variables that automatically update the UI when their values change.
 4. Event emitting and catching with the `@event` directive.
 5. Reactive prop binding with `:prop`.

@@ -1,9 +1,9 @@
 export const Card = () => ({
-    setup: (props, { getStore }) => {
+    setup(props, { useStore }) {
         const increment = (payload) => payload.detail.effect();
         const decrement = (payload) => payload.detail.effect();
 
-        const { cardTitle, cardDescription } = getStore('cardStore');
+        const { cardTitle, cardDescription } = useStore('cardStore');
 
         const onInput = (event) => {
             cardTitle.value = event.target.value;
