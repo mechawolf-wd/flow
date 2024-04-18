@@ -30,7 +30,6 @@ export const Counter = () => ({
             console.log('onBeforeMount called.')
         })
 
-
         const demoTwoWayBinding = () => {
             cardTitle.value = 'Two way binding works!';
         };
@@ -38,7 +37,7 @@ export const Counter = () => ({
         const humans = ref([
             {
                 name: 'Bart',
-                age: 21
+                age: 20
             },
             {
                 name: 'Paul',
@@ -61,7 +60,6 @@ export const Counter = () => ({
                         {{ human.name }}
                         {{ human.age }}
                         {{ human.status }}
-                        <input :placeholder="counter" />
                     </div>
                 </Loop>
             </div>
@@ -75,7 +73,7 @@ export const Counter = () => ({
             humans,
             incrementCounter,
             decrementCounter,
-            demoTwoWayBinding,
+            demoTwoWayBinding
         };
     },
     style: {
