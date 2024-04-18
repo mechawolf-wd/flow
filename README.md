@@ -38,7 +38,7 @@
 
 ## Example Component: Counter
 
-```javascript
+`````javascript
 export const Counter = () => ({
   setup(
     props,
@@ -99,7 +99,7 @@ export const Counter = () => ({
       },
     ]);
 
-    const template = html`
+    const template = ````html
       <div class="counter">
         <div class="counter-display">Counter: {{ counter }}</div>
         <div class="computed-value">Computed: {{ computedValue }}</div>
@@ -121,7 +121,7 @@ export const Counter = () => ({
           </div>
         </Loop>
       </div>
-    `;
+    ````;
 
     return {
       template,
@@ -193,4 +193,4 @@ export const Counter = () => ({
         `,
   },
 });
-```
+`````
