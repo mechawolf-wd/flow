@@ -99,7 +99,7 @@ export const Counter = () => ({
       },
     ]);
 
-    const template = `
+    const template = html`
       <div class="counter">
         <div class="counter-display">Counter: {{ counter }}</div>
         <div class="computed-value">Computed: {{ computedValue }}</div>
