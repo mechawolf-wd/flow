@@ -45,6 +45,13 @@ export const Counter = () => ({
             }
         ])
 
+        setTimeout(() => {
+            humans.push({
+                name: 'Jack',
+                age: 39
+            })
+        }, 1000);
+
         const template = /* HTML */ `
             <div class="counter">
                 <div class="counter-display">Counter: {{ counter }}</div>
@@ -55,11 +62,21 @@ export const Counter = () => ({
                     <button class="btn special" @click="demoTwoWayBinding">Demo - two way binding.</button>
                 </div>
 
-                <Loop :for="human of humans.map(e => ({ ...e, status: 'Happy 😊' }))" :value="counter">
+                <Loop :for="human of humans.map(e => ({ ...e, status: 'Happy 😊' }))">
                     <div class="loop-item">
                         {{ human.name }}
                         {{ human.age }}
                         {{ human.status }}
+                        <input type="text" :value="human.name">
+                    </div>
+                </Loop>
+
+                <Loop :for="human of humans.map(e => ({ ...e, status: 'Happy 😊' }))">
+                    <div class="loop-item">
+                        {{ human.name }}
+                        {{ human.age }}
+                        {{ human.status }}
+                        <input type="text" :value="human.name">
                     </div>
                 </Loop>
             </div>
