@@ -1,6 +1,6 @@
 # Flow-JS Framework
 
-![Flow-JS Logo](./logo.webp)
+<img src="./logo.webp" alt="Flow-JS Logo" width="200">
 
 ## Overview
 
