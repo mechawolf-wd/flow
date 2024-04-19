@@ -67,7 +67,7 @@ export const Counter = () => ({
                         {{ human.name }}
                         {{ human.age }}
                         {{ human.status }}
-                        <input type="text" :value="human.name">
+                        <input type="checkbox" :checked="counter % 2 === 0">
                     </div>
                 </Loop>
             </div>
