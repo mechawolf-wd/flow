@@ -70,15 +70,6 @@ export const Counter = () => ({
                         <input type="text" :value="human.name">
                     </div>
                 </Loop>
-
-                <Loop :for="human of humans.map(e => ({ ...e, status: 'Happy 😊' }))">
-                    <div class="loop-item">
-                        {{ human.name }}
-                        {{ human.age }}
-                        {{ human.status }}
-                        <input type="text" :value="human.name">
-                    </div>
-                </Loop>
             </div>
         `;
 
