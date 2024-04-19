@@ -6,24 +6,26 @@
 
 ## First Line of Necessary TODOs
 
-1. Remove expression attribute from expression elements (currently not implemented).
+<!-- 1. Remove expression attribute from expression elements (currently not implemented). -->
+
 2. Add scoped styling (currently not implemented).
 3. Prevent unnecessary updates by distinguishing between global and local updates.
 4. Implement the `once` directive to bind events or effects that should only execute once.
-5. Cache values inside observers (computed properties) to optimize performance.
-6. Use reactive props that bind directly to object properties instead of reading from DOM attributes.
+5. Use reactive props that bind directly to object properties instead of reading from DOM attributes.
+6. Caching the values in loop's expressions.
 
 ## Second Line of TODOs
 
 1. Explore how to handle nested loops effectively.
 2. Enhance the system for reactive array updates to ensure minimal DOM manipulation.
-3. Implement the `f-model=""` directive for two-way data binding.
-4. Address the issue of excessive updates, ensuring more efficient change detection and rendering.
+3. Address the issue of excessive updates, ensuring more efficient change detection and rendering.
+4. Cache values inside observers (computed properties) to optimize performance.
 
 ## Third Line of TODOs
 
 1. Add support for SCSS to enhance styling capabilities.
 2. Introduce TypeScript support for improved development experience and type safety.
+3. Implement the `f-model=""` directive for two-way data binding.
 
 ## Implemented Features
 
@@ -35,6 +37,7 @@
 6. Two-way binding that functions correctly.
 7. Application of CSS directly from `component.style.sheet`.
 8. `:for` for handling loops within components.
+9. Value of type `checkbox` and `text` inputs are now reactive.
 
 ## Example Component: Counter
 

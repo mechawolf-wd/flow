@@ -23,11 +23,11 @@ export const Counter = () => ({
         })
 
         onMounted(() => {
-            console.log('onMounted called.')
+            // console.log('onMounted called.')
         })
 
         onBeforeMount(() => {
-            console.log('onBeforeMount called.')
+            // console.log('onBeforeMount called.')
         })
 
         const demoTwoWayBinding = () => {
