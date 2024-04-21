@@ -1,6 +1,6 @@
 # Flow-JS Framework
 
-<div align="center">
+<div align="center" style="border-radius: 5px;">
   <img src="./logo.webp" alt="Flow-JS Logo" width="512">
 </div>
 
