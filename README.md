@@ -11,27 +11,24 @@ Flow-JS is an innovative JavaScript framework tailored for building interactive 
 ## Features
 
 - 🔄 **Reactive Data Binding**: Changes in your state automatically reflect in your UI without manual intervention.
-- 🎨 **Scoped Styling**: Provides scoped CSS to manage styles efficiently within components without global side effects.
 - 📦 **Efficient State Management**: Comes with built-in methods for managing global and local states, enhancing the predictability of data flow.
 - 🔧 **Advanced Directives**: Supports modern directives such as `:for` for loops, `:if` for conditional rendering, and `@event` for handling events.
 - 🛠 **Modular Architecture**: Encourages the use of reusable, modular components that can be easily integrated and tested.
 
 ## First Line of Necessary TODOs
 
-<!-- 1. Remove expression attribute from expression elements (currently not implemented). -->
-
+1. Allow computed reactive variables to have computed values as their dependencies (multiple level computed properties).
 2. Add scoped styling (currently not implemented).
-3. Prevent unnecessary updates by distinguishing between global and local updates.
-4. Implement the `once` directive to bind events or effects that should only execute once.
-5. Use reactive props that bind directly to object properties instead of reading from DOM attributes.
-6. Caching the values in loop's expressions.
+3. Implement the `once` directive to bind events or effects that should only execute once.
+4. Use reactive props that bind directly to object properties instead of reading from DOM attributes.
+5. Caching the values in loop's expressions.
+6. Remove callback hell of component mounting.
 
 ## Second Line of TODOs
 
 1. Explore how to handle nested loops effectively.
 2. Enhance the system for reactive array updates to ensure minimal DOM manipulation.
-3. Address the issue of excessive updates, ensuring more efficient change detection and rendering.
-4. Cache values inside observers (computed properties) to optimize performance.
+3. Cache values inside observers (computed properties) to optimize performance.
 
 ## Third Line of TODOs
 
