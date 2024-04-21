@@ -45,13 +45,6 @@ export const Counter = () => ({
             }
         ])
 
-        setTimeout(() => {
-            humans.push({
-                name: 'Jack',
-                age: 39
-            })
-        }, 1000);
-
         const template = /* HTML */ `
             <div class="counter">
                 <div class="counter-display">Counter: {{ counter }}</div>
@@ -133,6 +126,7 @@ export const Counter = () => ({
             /* Styling for loop items */
             .loop-item {
                 display: flex;
+                align-items: center;
                 justify-content: space-between; /* Distributes space between name and age */
                 padding: 0.375rem 0.75rem; /* Padding similar to buttons */
                 border-radius: 0.25rem; /* Rounded corners */
