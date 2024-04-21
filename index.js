@@ -8,7 +8,6 @@ import { cardStore } from './store/Store.js'
 Flow.connect(() => {
     Flow.mountStore(cardStore)
 
-    // TODO: build a mechanism to handle direct directed imports
     Flow.mount(App).forEach(node => {
         const cardNodes = Flow.mount(Card, node)
 

@@ -11,20 +11,21 @@ export const Card = () => ({
 
         const template = /* HTML */ `
             <div class="card">
-                <h3 class="card-title">
-                    {{ cardTitle }}
-                </h3>
-
-                <p class="card-description">
-                    {{ cardDescription }}
-                </p>
+                <div>
+                    <h3 class="card-title">
+                        {{ cardTitle }}
+                    </h3>
+                    <p class="card-description">
+                        {{ cardDescription }}
+                    </p>
+                </div>
 
                 <Counter
                     :reactive-prop="cardTitle"
                     @increment="(event) => increment(event)"
                     @decrement="decrement"
                 />
-                
+
                 <input
                     class="card-input"
                     placeholder="Enter title..."
@@ -54,6 +55,10 @@ export const Card = () => ({
                 margin-bottom: 0.5rem; /* Space between cards */
                 box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* Subtle shadow */
                 overflow: hidden; /* Prevents any child elements from overflowing */
+                padding: 20px 16px;
+                margin: 16px;
+                display: grid;
+                gap: 16px;
             }
     
             .card-title {

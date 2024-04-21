@@ -23,6 +23,9 @@ Flow-JS is an innovative JavaScript framework tailored for building interactive 
 4. Use reactive props that bind directly to object properties instead of reading from DOM attributes.
 5. Caching the values in loop's expressions.
 6. Remove callback hell of component mounting.
+7. Fix Checkboxes since - once touched, they keep their user manipulated state.
+8. Fix components' entry points being appended with <example-component></example-component>.
+9. Decide whether to keep <loop></loop> tags inside production HTML.
 
 ## Second Line of TODOs
 
