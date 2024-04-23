@@ -1,9 +1,11 @@
 export const Counter = () => ({
     setup(props, { ref, computed, emit, useStore, watch, onMounted, onBeforeMount }) {
         let counter = ref(1);
+        let exampleNumber = ref(100)
 
         const computedValue = computed(() => {
-            return counter.value % 2 === 0 ? 'Even.' : 'Odd.'
+            console.count('computed called')
+            return (counter.value + exampleNumber.value) % 2 === 0 ? 'Even.' : 'Odd.'
         })
 
         const { cardTitle } = useStore('cardStore');
@@ -47,8 +49,7 @@ export const Counter = () => ({
 
         const template = /* HTML */ `
             <div class="counter">
-                <div class="counter-display">Counter: {{ counter }}</div>
-                <div class="computed-value">Computed: {{ computedValue }}</div>
+                <div class="counter-display">Counter: {{ counter }} + {{ exampleNumber }} = {{ computedValue }}</div>
                 <div style="display: flex; justify-content: space-between; gap: 24px;">
                     <button class="btn" @click="incrementCounter">Increment ++</button>
                     <button class="btn" @click="decrementCounter">Decrement --</button>
@@ -69,6 +70,7 @@ export const Counter = () => ({
         return {
             template,
             counter,
+            exampleNumber,
             computedValue,
             cardTitle,
             humans,

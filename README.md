@@ -52,6 +52,7 @@ Flow-JS is an innovative JavaScript framework tailored for building interactive 
 7. Application of CSS directly from `component.style.sheet`.
 8. `:for` for handling loops within components.
 9. Value of type `checkbox` and `text` inputs are now reactive.
+10. Migrate everything to Maps and Sets.
 
 ## Example Component: Counter
 
