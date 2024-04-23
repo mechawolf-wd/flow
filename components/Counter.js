@@ -4,7 +4,6 @@ export const Counter = () => ({
         let exampleNumber = ref(100)
 
         const computedValue = computed(() => {
-            console.count('computed called')
             return (counter.value + exampleNumber.value) % 2 === 0 ? 'Even.' : 'Odd.'
         })
 
