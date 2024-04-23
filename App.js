@@ -1,11 +1,9 @@
-export const App = () => ({
-    setup() {
-        const template = /* HTML */ `
-            <div class="exampleClass">
-                <Card />
-            </div>
-        `
+export const App = () => {
+    const template = /* HTML */ `
+        <div class="exampleClass">
+            <Card />
+        </div>
+    `
 
-        return { template }
-    }
-})
+    return { template }
+}
