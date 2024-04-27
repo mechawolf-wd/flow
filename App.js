@@ -1,4 +1,4 @@
-export const App = () => {
+$Flow.defineComponent('App', () => {
     const template = /* HTML */ `
         <div class="exampleClass">
             <Card />
@@ -6,4 +6,4 @@ export const App = () => {
     `
 
     return { template }
-}
+})

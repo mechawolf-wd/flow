@@ -1,5 +1,5 @@
-export const Example = () => {
+$Flow.defineComponent('Example', () => {
     const template = /* HTML */ `<h1>Example</h1>`
 
     return { template }
-}
+})

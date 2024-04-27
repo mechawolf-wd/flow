@@ -1,22 +1,9 @@
-import { App } from './App.js'
-import { Counter } from './components/Counter.js'
-import { Card } from './components/Card.js'
-import { Example } from './components/Example.js'
 import { Flow } from './node_modules/@flow/index.js'
 import { cardStore } from './store/Store.js'
+import './App.js'
+import './components/Card.js'
+import './components/Counter.js'
+import './components/Example.js'
 
-Flow.connect(() => {
-    Flow.mountStore(cardStore)
-
-    Flow.mount(App).forEach(node => {
-        const cardNodes = Flow.mount(Card, node)
-
-        cardNodes.forEach(cardNode => {
-            const counterNodes = Flow.mount(Counter, cardNode)
-
-            counterNodes.forEach(counterNode => {
-                Flow.mount(Example, counterNode)
-            })
-        })
-    })
-})
+Flow.mountStore(cardStore)
+Flow.renderApp()

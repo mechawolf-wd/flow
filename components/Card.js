@@ -1,4 +1,4 @@
-export const Card = (props, { useStore }) => {
+$Flow.defineComponent('Card', (props, { useStore }) => {
     const increment = (payload) => payload.detail.effect();
     const decrement = (payload) => payload.detail.effect();
 
@@ -16,7 +16,8 @@ export const Card = (props, { useStore }) => {
           </div>
 
           <Counter
-            :reactive-prop="cardTitle"
+            :new-counter="cardTitle"
+            :id="cardTitle"
             @increment="(event) => increment(event)"
             @decrement="decrement"
           />
@@ -79,4 +80,4 @@ export const Card = (props, { useStore }) => {
         increment,
         decrement,
     };
-};
+});
