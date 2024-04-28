@@ -17,16 +17,14 @@ Flow-JS is an innovative JavaScript framework tailored for building interactive 
 
 ## First Line of Necessary TODOs
 
-2. Add scoped styling (currently not implemented).
 3. Implement the `once` directive to bind events or effects that should only execute once.
 4. Use reactive props that bind directly to object properties instead of reading from DOM attributes.
 5. Caching the values in loop's expressions.
-6. Remove callback hell of component mounting.
-7. Fix Checkboxes since - once touched, they keep their user manipulated state.
-8. Fix components' entry points being appended with <example-component></example-component>.
-9. Decide whether to keep <loop></loop> tags inside production HTML.
-10. Implement `ref=""` directive for referencing DOM elements.
-11. Implement props watcher watching.
+6. Fix Checkboxes since - once touched, they keep their user manipulated state.
+7. Fix components' entry points being appended with <example-component></example-component>.
+8. Decide whether to keep <loop></loop> tags inside production HTML.
+9. Implement `ref=""` directive for referencing DOM elements.
+10. Implement props watcher watching.
 
 ## Second Line of TODOs
 
