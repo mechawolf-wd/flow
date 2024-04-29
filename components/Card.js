@@ -1,7 +1,9 @@
-export const Card = (props, { useStore }) => {
+export const Card = ({ useStore, defineProps }) => {
   const increment = (payload) => {
     payload.detail.effect();
   };
+
+  defineProps(['custom-card-description'])
 
   const decrement = (payload) => payload.detail.effect();
 
@@ -19,8 +21,8 @@ export const Card = (props, { useStore }) => {
       </div>
 
       <Counter
-        :new-counter="cardTitle"
-        :id="cardTitle"
+        :new-counter="cardDescription"
+        :id="cardDescription"
         @increment="(event) => increment(event)"
         @decrement="decrement"
       >

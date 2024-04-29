@@ -24,7 +24,7 @@ Flow-JS is an innovative JavaScript framework tailored for building interactive 
 7. Fix components' entry points being appended with <example-component></example-component>.
 8. Decide whether to keep <loop></loop> tags inside production HTML.
 9. Implement `ref=""` directive for referencing DOM elements.
-10. Implement props watcher watching.
+10. Implement user's ability to watch props.
 
 ## Second Line of TODOs
 

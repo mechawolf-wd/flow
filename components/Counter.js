@@ -1,4 +1,4 @@
-export const Counter = (props, { ref, computed, emit, useStore, watch, onMounted, onBeforeMount, defineProps }) => {
+export const Counter = ({ ref, computed, emit, useStore, watch, onMounted, onBeforeMount, defineProps }) => {
     let counter = ref(1);
     let exampleNumber = ref(100)
 
@@ -6,7 +6,7 @@ export const Counter = (props, { ref, computed, emit, useStore, watch, onMounted
         return (counter.value + exampleNumber.value) % 2 === 0 ? 'Even.' : 'Odd.'
     })
 
-    defineProps(['id', 'new-counter'])
+    const props = defineProps(['id', 'new-counter'])
 
     const { cardTitle } = useStore('cardStore');
 
@@ -146,54 +146,50 @@ export const Counter = (props, { ref, computed, emit, useStore, watch, onMounted
     };
 };
 
-// $FlowEngine.defineComponent('CurrentDate', (props, { ref, useStore }) => {
-//     // Define a reactive property
-//     const message = ref('Hello, World!');
+export const CurrentDate = ({ ref, useStore }) => {
+    const message = ref('Hello, World!');
 
-//     const { currentDate } = useStore('dateStore')
+    const { currentDate } = useStore('dateStore')
 
-//     // Method to change the message
-//     const changeMessage = () => {
-//         message.value = 'Hello, $FlowEngine!';
-//     };
+    const changeMessage = () => {
+        message.value = 'Hello, $FlowEngine!';
+    };
 
-//     // Template for the component
-//     const template = /* HTML */ `
-//         <div class="simple-demo-component">
-//             <h3>{{ currentDate }}</h3>
-//         </div>
-//     `;
+    const template = /* HTML */ `
+        <div class="simple-demo-component">
+            <h3>{{ currentDate }}</h3>
+        </div>
+    `;
 
-//     // CSS styles for the component
-//     const style = /* CSS */ `
-//         .simple-demo-component {
-//             font-family: 'Arial', sans-serif;
-//             background-color: #f0f0f0;
-//             padding: 20px;
-//             border-radius: 8px;
-//             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-//         }
+    const style = /* CSS */ `
+        .simple-demo-component {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
 
-//         button {
-//             background-color: #007bff;
-//             color: white;
-//             border: none;
-//             padding: 10px 20px;
-//             border-radius: 4px;
-//             cursor: pointer;
-//             transition: background-color 0.3s ease;
-//         }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
-//         button:hover {
-//             background-color: #0056b3;
-//         }
-//     `;
+        button:hover {
+            background-color: #0056b3;
+        }
+    `;
 
-//     return {
-//         template,
-//         style,
-//         message,
-//         currentDate,
-//         changeMessage
-//     };
-// });
+    return {
+        template,
+        style,
+        message,
+        currentDate,
+        changeMessage
+    };
+}
