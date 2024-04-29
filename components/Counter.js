@@ -6,7 +6,9 @@ export const Counter = ({ ref, computed, emit, useStore, watch, onMounted, onBef
         return (counter.value + exampleNumber.value) % 2 === 0 ? 'Even.' : 'Odd.'
     })
 
-    const props = defineProps(['id', 'new-counter'])
+    const props = defineProps(['new-id', 'new-counter'])
+
+    console.log(props)
 
     const { cardTitle } = useStore('cardStore');
 

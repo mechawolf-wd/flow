@@ -22,7 +22,7 @@ export const Card = ({ useStore, defineProps }) => {
 
       <Counter
         :new-counter="cardDescription"
-        :id="cardDescription"
+        :new-id="cardDescription"
         @increment="(event) => increment(event)"
         @decrement="decrement"
       >
