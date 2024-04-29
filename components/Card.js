@@ -1,37 +1,43 @@
-$Flow.defineComponent('Card', (props, { useStore }) => {
-    const increment = (payload) => payload.detail.effect();
-    const decrement = (payload) => payload.detail.effect();
+export const Card = (props, { useStore }) => {
+  const increment = (payload) => {
+    payload.detail.effect();
+  };
 
-    const { cardTitle, cardDescription } = useStore("cardStore");
+  const decrement = (payload) => payload.detail.effect();
 
-    const onInput = (event) => {
-        cardTitle.value = event.target.value;
-    };
+  const { cardTitle, cardDescription } = useStore("cardStore");
 
-    const template = /* HTML */ `
-        <div class="card">
-          <div>
-            <h3 class="card-title">{{ cardTitle }}</h3>
-            <p class="card-description">{{ cardDescription }}</p>
-          </div>
+  const onInput = (event) => {
+    cardTitle.value = event.target.value;
+  };
 
-          <Counter
-            :new-counter="cardTitle"
-            :id="cardTitle"
-            @increment="(event) => increment(event)"
-            @decrement="decrement"
-          />
+  const template = /* HTML */ `
+    <div class="card">
+      <div>
+        <h3 class="card-title">{{ cardTitle }}</h3>
+        <p class="card-description">{{ cardDescription }}</p>
+      </div>
 
-          <input
-            class="card-input"
-            placeholder="Enter title..."
-            :value="cardTitle"
-            @input="onInput"
-          />
-        </div>
-    `;
+      <Counter
+        :new-counter="cardTitle"
+        :id="cardTitle"
+        @increment="(event) => increment(event)"
+        @decrement="decrement"
+      >
+      </Counter>
 
-    const style = /* CSS */ `
+      <CurrentDate></CurrentDate>
+
+      <input
+        class="card-input"
+        placeholder="Enter title..."
+        :value="cardTitle"
+        @input="onInput"
+      />
+    </div>
+  `;
+
+  const style = /* CSS */ `
         .card {
             font-family: 'Arial', sans-serif;
             background: #ffffff; /* White background */
@@ -69,15 +75,15 @@ $Flow.defineComponent('Card', (props, { useStore }) => {
         }
     `;
 
-    return {
-        template,
-        style,
+  return {
+    template,
+    style,
 
-        cardTitle,
-        cardDescription,
+    cardTitle,
+    cardDescription,
 
-        onInput,
-        increment,
-        decrement,
-    };
-});
+    onInput,
+    increment,
+    decrement,
+  };
+};

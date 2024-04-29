@@ -37,6 +37,8 @@ Flow-JS is an innovative JavaScript framework tailored for building interactive 
 1. Add support for SCSS to enhance styling capabilities.
 2. Introduce TypeScript support for improved development experience and type safety.
 3. Implement the `f-model=""` directive for two-way data binding.
+4. Fix computeds running only if they are returned and gotten from the useStore().
+5. Introduce recursive compnents.
 
 ## Implemented Features
 
@@ -54,7 +56,7 @@ Flow-JS is an innovative JavaScript framework tailored for building interactive 
 ## Example Component: Counter
 
 `````javascript
-$Flow.defineComponent("Counter", ( props, { ref, computed, emit, useStore, watch, onMounted, onBeforeMount, defineProps }) => {
+$FlowEngine.defineComponent("Counter", ( props, { ref, computed, emit, useStore, watch, onMounted, onBeforeMount, defineProps }) => {
     let counter = ref(1);
     let exampleNumber = ref(100);
 

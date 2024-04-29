@@ -1,9 +1,12 @@
-import { Flow } from './node_modules/@flow/index.js'
+import { Flow } from "./node_modules/@flow/index.js";
 
-import './store/Store.js'
-import './App.js'
-import './components/Card.js'
-import './components/Counter.js'
-import './components/Example.js'
+import { cardStore, dateStore } from "./store/Store.js";
+import { App } from "./App.js";
+import { Card } from "./components/Card.js";
+import { Example } from "./components/Example.js";
+import { Counter } from "./components/Counter.js";
 
-Flow.render()
+Flow.defineStores([cardStore, dateStore]);
+Flow.defineComponents([App, Card, Counter, Example]);
+
+Flow.render();

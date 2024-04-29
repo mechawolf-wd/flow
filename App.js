@@ -1,9 +1,9 @@
-$Flow.defineComponent('App', () => {
-    const template = /* HTML */ `
+export const App = () => {
+  const template = /* HTML */ `
         <div class="exampleClass">
             <Card />
         </div>
     `
 
-    return { template }
-})
+  return { template }
+}
