@@ -1,14 +1,14 @@
-export const Counter = ({ ref, computed, emit, useStore, watch, onMounted, onBeforeMount, defineProps }) => {
+export const props = ['new-id', 'new-counter']
+
+export const emits = ['new-emit-attribute']
+
+export const Counter = ({ ref, computed, emit, useStore, watch, onMounted, onBeforeMount }, props) => {
     let counter = ref(1);
     let exampleNumber = ref(100)
 
     const computedValue = computed(() => {
         return (counter.value + exampleNumber.value) % 2 === 0 ? 'Even.' : 'Odd.'
     })
-
-    const props = defineProps(['new-id', 'new-counter'])
-
-    console.log(props)
 
     const { cardTitle } = useStore('cardStore');
 
@@ -19,6 +19,10 @@ export const Counter = ({ ref, computed, emit, useStore, watch, onMounted, onBef
     const decrementCounter = () => {
         emit('decrement', { effect: () => { counter.value -= 1 } });
     };
+
+    setInterval(() => {
+        // console.log(props)
+    }, 2000);
 
     watch(counter, (newValue, oldValue) => {
         if (newValue > 25) {
@@ -147,51 +151,3 @@ export const Counter = ({ ref, computed, emit, useStore, watch, onMounted, onBef
         demoTwoWayBinding
     };
 };
-
-export const CurrentDate = ({ ref, useStore }) => {
-    const message = ref('Hello, World!');
-
-    const { currentDate } = useStore('dateStore')
-
-    const changeMessage = () => {
-        message.value = 'Hello, $FlowEngine!';
-    };
-
-    const template = /* HTML */ `
-        <div class="simple-demo-component">
-            <h3>{{ currentDate }}</h3>
-        </div>
-    `;
-
-    const style = /* CSS */ `
-        .simple-demo-component {
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f0f0;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-    `;
-
-    return {
-        template,
-        style,
-        message,
-        currentDate,
-        changeMessage
-    };
-}
