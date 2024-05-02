@@ -1,7 +1,7 @@
 # Flow-JS Framework
 
 <div align="center" style="border-radius: 5px;">
-  <img src="./logo.webp" alt="Flow-JS Logo" width="512">
+  <img src="./logo.webp" alt="Flow-JS Logo" width="256" style="border-radius: 50%;">
 </div>
 
 ## Overview
