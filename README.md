@@ -21,6 +21,10 @@ Flow-JS is an innovative JavaScript framework tailored for building interactive 
 8. Decide whether to keep <loop></loop> tags inside production HTML.
 9. Implement `ref=""` directive for referencing DOM elements.
 10. Implement user's ability to watch props.
+11. Imlement handling mechanism for components' names casing. eg. CurrentDate -> <current-date>... (x) <currentdate>
+12. Investigate why all reactive variables have references in watchCallbacks.
+13. Investigate why setAttribute is called twice as much as it needs to be called.
+14. Remove repetition of saving attributes' contents eg. :for.
 
 ## Second Line of TODOs
 

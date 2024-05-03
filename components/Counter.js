@@ -21,7 +21,7 @@ export const Counter = ({ ref, computed, emit, useStore, watch, onMounted, onBef
     };
 
     setInterval(() => {
-        // console.log(props)
+        console.log(props)
     }, 2000);
 
     watch(counter, (newValue, oldValue) => {

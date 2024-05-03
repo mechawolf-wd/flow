@@ -1,3 +1,5 @@
+'use strict';
+
 import { Flow } from "./node_modules/@flow/index.js";
 
 import { cardStore, dateStore } from "./store/Store.js";
