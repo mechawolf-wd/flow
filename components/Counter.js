@@ -69,9 +69,9 @@ export const Counter = ({ ref, computed, emit, useStore, watch, onMounted, onBef
 
             <Loop :for="human of humans.map(e => ({ ...e, status: 'Happy 😊' }))">
                 <div class="loop-item">
-                    {{ human.name }}
-                    {{ human.age }}
-                    {{ human.status }}
+                    <p>{{ human.name }}</p>
+                    <p>{{ human.age }}</p>
+                    <p>{{ human.status }}</p>
                     <input type="checkbox" :checked="counter % 2 === 0">
                 </div>
             </Loop>
