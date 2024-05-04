@@ -2,7 +2,7 @@ export const props = ['new-id', 'new-counter']
 
 export const emits = ['new-emit-attribute']
 
-export const Counter = ({ ref, computed, emit, useStore, watch, onMounted, onBeforeMount }, props) => {
+export const Counter = ({ ref, computed, emit, useStore, watch, onMounted, onBeforeMount, props }) => {
     let counter = ref(1);
     let exampleNumber = ref(100)
 
@@ -20,9 +20,9 @@ export const Counter = ({ ref, computed, emit, useStore, watch, onMounted, onBef
         emit('decrement', { effect: () => { counter.value -= 1 } });
     };
 
-    setInterval(() => {
-        console.log(props)
-    }, 2000);
+    watch(props['new-id'], (value) => {
+        console.log(value)
+    }, { immediate: true })
 
     watch(counter, (newValue, oldValue) => {
         if (newValue > 25) {

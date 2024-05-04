@@ -1,6 +1,6 @@
 export const props = ['card-title-bound']
 
-export const Card = ({ useStore }, props) => {
+export const Card = ({ useStore }) => {
   const increment = (payload) => {
     payload.detail.effect();
   };

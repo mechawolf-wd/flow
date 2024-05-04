@@ -1,7 +1,7 @@
 export const App = () => {
   const template = /* HTML */ `
         <div class="exampleClass">
-            <Card />
+            <Card :card-title-bound="200 + 300"></Card>
         </div>
     `
 
