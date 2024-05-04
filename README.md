@@ -50,7 +50,7 @@ Flow-JS is an innovative JavaScript framework tailored for building interactive 
 3. Reactive variables that automatically update the UI when their values change.
 4. Event emitting and catching with the `@event` directive.
 5. Reactive prop binding with `:prop`.
-6. Two-way binding that functions correctly.
+6. Two-way binding that functwions correctly.
 7. Application of CSS directly from `component.style.sheet`.
 8. `:for` for handling loops within components.
 9. Value of type `checkbox` and `text` inputs are now reactive.
