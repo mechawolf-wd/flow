@@ -37,21 +37,25 @@ export const Counter = ({
         });
     };
 
+    // watch(
+    //     newId,
+    //     (newValue, oldValue) => {
+    //         console.log(newValue, oldValue);
+    //     },
+    //     { immediate: true }
+    // );
+
     watch(
-        newId,
+        counter,
         (newValue, oldValue) => {
-            // console.log(newValue, oldValue);
+            if (newValue > 25) {
+                alert(
+                    `Value watched! newValue and oldValue accordingly: ${newValue}, ${oldValue}`
+                );
+            }
         },
         { immediate: true }
     );
-
-    watch(counter, (newValue, oldValue) => {
-        if (newValue > 25) {
-            alert(
-                `Value watched! newValue and oldValue accordingly: ${newValue}, ${oldValue}`
-            );
-        }
-    }, { immediate: true });
 
     // watch(computedValue, (newValue, oldValue) => {
     //     console.log('newValue of computed', newValue, oldValue)

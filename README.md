@@ -28,6 +28,8 @@ Flow-JS is an innovative JavaScript framework tailored for building interactive 
 13. Investigate why all reactive variables have references in watchCallbacks.
 14. Investigate why setAttribute is called twice as much as it needs to be called.
 15. Remove repetition of saving attributes' contents eg. :for.
+16. Implement deep object watching.
+17. Make better dependency extractor that would support `data.property`.
 
 ## Second Line of TODOs
 
