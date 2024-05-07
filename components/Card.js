@@ -1,4 +1,4 @@
-export const props = ['card-title-bound']
+export const props = ["card-title-bound"];
 
 export const Card = ({ useStore }) => {
   const increment = (payload) => {
@@ -16,7 +16,9 @@ export const Card = ({ useStore }) => {
   const template = /* HTML */ `
     <div class="card">
       <div>
-        <h3 class="card-title" :new-counter="cardDescription">{{ cardTitle }}</h3>
+        <h3 class="card-title" :new-counter="cardDescription">
+          {{ cardTitle }}
+        </h3>
         <p class="card-description">{{ cardDescription }}</p>
       </div>
 

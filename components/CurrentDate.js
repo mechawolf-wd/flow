@@ -1,17 +1,17 @@
 export const CurrentDate = ({ ref, useStore }) => {
-    const message = ref('Hello, World!');
+    const message = ref("Hello, World!");
 
-    const { currentDate } = useStore('dateStore')
+    const { currentDate } = useStore("dateStore");
 
     const changeMessage = () => {
-        message.value = 'Hello, $FlowEngine!';
+        message.value = "Hello, $FlowEngine!";
     };
 
     const template = /* HTML */ `
-        <div class="simple-demo-component">
-            <h3>{{ currentDate }}</h3>
-        </div>
-    `;
+    <div class="simple-demo-component">
+      <h3>{{ currentDate }}</h3>
+    </div>
+  `;
 
     const style = /* CSS */ `
         .simple-demo-component {
@@ -42,6 +42,6 @@ export const CurrentDate = ({ ref, useStore }) => {
         style,
         message,
         currentDate,
-        changeMessage
+        changeMessage,
     };
-}
+};

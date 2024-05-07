@@ -1,3 +1,5 @@
+export const props = ['drillable-prop']
+
 export const Example = ({ useStore, ref, watch }) => {
     const { cardTitle } = useStore('cardStore')
 
@@ -7,7 +9,7 @@ export const Example = ({ useStore, ref, watch }) => {
         counter.value++
     })
 
-    const template = /* HTML */ `<h1>{{ cardTitle }}</h1> <p>{{ counter }}</p>`;
+    const template = /* HTML */ `<h1>{{ drillableProp }}</h1>`;
 
     return { template, cardTitle, counter };
 };

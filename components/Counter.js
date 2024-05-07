@@ -10,7 +10,7 @@ export const Counter = ({
     watch,
     onMounted,
     onBeforeMount,
-    props,
+    props: { newId },
 }) => {
     let counter = ref(1);
     let exampleNumber = ref(100);
@@ -38,9 +38,9 @@ export const Counter = ({
     };
 
     watch(
-        props["new-id"],
-        (value) => {
-            console.log(value);
+        newId,
+        (newValue, oldValue) => {
+            // console.log(newValue, oldValue);
         },
         { immediate: true }
     );
@@ -51,7 +51,7 @@ export const Counter = ({
                 `Value watched! newValue and oldValue accordingly: ${newValue}, ${oldValue}`
             );
         }
-    });
+    }, { immediate: true });
 
     // watch(computedValue, (newValue, oldValue) => {
     //     console.log('newValue of computed', newValue, oldValue)
@@ -81,29 +81,29 @@ export const Counter = ({
     ]);
 
     const template = /* HTML */ `
-        <div class="counter">
-          <div class="counter-display">
-            Counter: {{ counter }} + {{ exampleNumber }} = {{ computedValue }}
-          </div>
+    <div class="counter">
+      <div class="counter-display">
+        Counter: {{ counter }} + {{ exampleNumber }} = {{ computedValue }}
+      </div>
 
-          <div style="display: flex; justify-content: space-between; gap: 24px;">
-            <button class="btn" @click="incrementCounter">Increment ++</button>
-            <button class="btn" @click="decrementCounter">Decrement --</button>
-            <button class="btn special" @click="demoTwoWayBinding">
-              Demo - two way binding.
-            </button>
-          </div>
+      <div style="display: flex; justify-content: space-between; gap: 24px;">
+        <button class="btn" @click="incrementCounter">Increment ++</button>
+        <button class="btn" @click="decrementCounter">Decrement --</button>
+        <button class="btn special" @click="demoTwoWayBinding">
+          Demo - two way binding.
+        </button>
+      </div>
 
-          <Loop :for="human of humans.map(e => ({ ...e, status: 'Happy 😊' }))">
-            <div class="loop-item">
-              <p>{{ human.name }}</p>
-              <p>{{ human.age }}</p>
-              <p>{{ human.status }}</p>
-              <input type="checkbox" :checked="counter % 2 === 0" />
-            </div>
-          </Loop>
+      <Loop :for="human of humans.map(e => ({ ...e, status: 'Happy 😊' }))">
+        <div class="loop-item">
+          <p>{{ human.name }}</p>
+          <p>{{ human.age }}</p>
+          <p>{{ human.status }}</p>
+          <input type="checkbox" :checked="counter % 2 === 0" />
         </div>
-    `;
+      </Loop>
+    </div>
+  `;
 
     const style = /* CSS */ `
         .counter {
