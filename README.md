@@ -30,6 +30,7 @@ Flow-JS is an innovative JavaScript framework tailored for building interactive 
 15. Remove repetition of saving attributes' contents eg. :for.
 16. Implement deep object watching.
 17. Make better dependency extractor that would support `data.property`.
+18. Make events aware of context - now they don't get reactive variables' values.
 
 ## Second Line of TODOs
 
