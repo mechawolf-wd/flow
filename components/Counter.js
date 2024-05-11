@@ -57,9 +57,9 @@ export const Counter = ({
         { immediate: true }
     );
 
-    watch(computedValue, (newValue, oldValue) => {
-        console.log('newValue of computed', newValue, oldValue)
-    })
+    // watch(computedValue, (newValue, oldValue) => {
+    //     console.log('newValue of computed', newValue, oldValue)
+    // })
 
     onMounted(() => {
         // console.log('onMounted called.')
@@ -105,7 +105,7 @@ export const Counter = ({
             <p>{{ human.name }}</p>
             <p>{{ human.age }}</p>
             <p>{{ human.status }}</p>
-            <input type="checkbox" :checked="counter % 2 === 0" />
+            <input type="checkbox" :checked="cardTitle.length > 3" />
             </div>
         </Loop>
     </div>
