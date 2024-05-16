@@ -1,7 +1,7 @@
 export const CurrentDate = () => {
     const template = /* HTML */ `
         <div class="simple-demo-component">
-            <Slot name="example"></Slot>
+            <Drawer name="example"></Drawer>
         </div>
     `;
 

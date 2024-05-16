@@ -2,7 +2,8 @@
 
 import { Flow } from "./node_modules/@flow/index.js";
 
-import { cardStore, dateStore } from "./store/Store.js";
+import { cardStore } from "./store/cardStore.js";
+import { dateStore } from "./store/dateStore.js";
 import * as App from "./App.js";
 import * as Card from "./components/Card.js";
 import * as Counter from "./components/Counter.js";

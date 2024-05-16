@@ -21,20 +21,15 @@ Flow-JS is an innovative JavaScript framework tailored for building interactive 
 2. Implement the `once` directive to bind events or effects that should only execute once.
 3. Use reactive props that bind directly to object properties instead of reading from DOM attributes.
 4. Cache the values in loop's expressions.
-5. Support "immediate" watchers.
-6. Fix Checkboxes since once touched, they keep their user-manipulated state.
-7. Decide whether to keep `<loop></loop>` tags inside production HTML.
-8. Implement `ref=""` directive for referencing DOM elements.
-9. Make stores definition order agnostic.
-10. Implement the user's ability to watch props.
-11. Implement a handling mechanism for components' names casing. eg. CurrentDate -> `<current-date>`... (x) `<currentdate>`
-12. Investigate why all reactive variables have references in watchCallbacks.
-13. Investigate why setAttribute is called twice as much as it needs to be called.
-14. Remove repetition of saving attributes' contents eg. :for.
-15. Implement deep object watching.
-16. Make better dependency extractor that would support `data.property`.
-17. Make events aware of context - now they don't get reactive variables' values.
-18. Investigate why would `header` component be rendered twice (due to naming conflict).
+5. Fix Checkboxes - if touched once, they keep their user-manipulated state.
+6. Decide whether to keep `<loop></loop>` tags inside production HTML.
+7. Implement `ref=""` directive for referencing DOM elements.
+8. Implement the user's ability to watch props.
+9. Implement a handling mechanism for components' names casing. eg. CurrentDate -> `<current-date>`... (x) `<currentdate>`
+10. Remove repetition of saving attributes' contents eg. :for.
+11. Implement deep object watching.
+12. Make events aware of context - now they don't get reactive variables' values.
+13. Investigate why would `header` component be rendered twice (due to naming conflict).
 
 ## Second Line of TODOs
 
@@ -52,16 +47,20 @@ Flow-JS is an innovative JavaScript framework tailored for building interactive 
 
 ## Implemented Features
 
-1. Variable interpolation with `<Paint></Paint>` tags, similar to Vue's `{{ }}` delimiters.
-2. Reactive global stores accessed via the `useStore` method.
-3. Reactive variables that automatically update the UI when their values change.
-4. Event emitting and catching with the `@event` directive.
-5. Reactive prop binding with `:prop`.
-6. Two-way binding that functwions correctly.
-7. Application of CSS directly from `component.style.sheet`.
-8. `:for` for handling loops within components.
-9. Value of type `checkbox` and `text` inputs are now reactive.
-10. Migrate everything to Maps and Sets.
+1. Reactive variables that can be interpolated in template with {{ example.value }}.
+2. Computed properties that recompute their value when one of the dependencies change.
+3. Global state management with the useStore() hook.
+4. Custom events handling with the emit() method.
+5. Directives for conditional rendering and loops (naming convention: `:if`, `:for`).
+6. Event handling with the `@event` directive.
+7. Data binding possible with prepending `:` to the attribute name.
+8. watch() method for watching reactive variables.
+9. Looping through arrays with the `<Loop></Loop>` component.
+10. Reactive props that are defined with the `props` array.
+11. onMounted and onBeforeMount lifecycle hooks.
+12. <Insert> component for putting HTML content into <Drawer> tags. aka. slots and templates.
+13. No-import components that are automatically imported and registered.
+14. <Loop> component that loops through arrays.
 
 ## Example Component: Counter
 
@@ -144,7 +143,7 @@ export const Counter = ({
         </button>
       </div>
 
-      <slot name="message" :if="counter.value % 2 === 0"></slot>
+      <Drawer name="message" :if="counter.value % 2 === 0"></Drawer>
 
       <Loop :for="human of humans.value">
         <div class="loop-item">

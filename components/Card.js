@@ -31,7 +31,7 @@ export const Card = ({ useStore }) => {
       >
         <Insert name="message">
           <p>
-            Hello from Counter's slot.
+            Hello from Counter's drawer.
           </p>
         </Insert>
       </Counter>

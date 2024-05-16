@@ -39,10 +39,6 @@ export const Counter = ({
 
     const demoText = "Demo - two way binding."
 
-    // watch(computedValue, (newValue, oldValue) => {
-    //     console.log('newValue of computed', newValue, oldValue)
-    // })
-
     const demoTwoWayBinding = () => {
         cardTitle.value = "Two way binding works!";
     };
@@ -60,6 +56,10 @@ export const Counter = ({
         }
     ]);
 
+    setTimeout(() => {
+        humans.value = [...humans.value, { name: "Roger", age: 30, status: '😟' }]
+    }, 2000);
+
     const template = /* HTML */ `
         <div class="counter">
             <div class="counter-display">
@@ -74,7 +74,7 @@ export const Counter = ({
                 </button>
             </div>
 
-            <Slot name="message" :if="counter.value % 2 === 0"></Slot>
+            <Drawer name="message" :if="counter.value % 2 === 0"></Drawer>
 
             <Loop :for="human of humans.value">
                 <div class="loop-item">
