@@ -8,6 +8,7 @@ export const Card = ({ useStore }) => {
   const decrement = (payload) => payload.detail.effect();
 
   const { cardTitle, cardDescription } = useStore("cardStore");
+  const { currentDate } = useStore("dateStore");
 
   const onInput = (event) => {
     cardTitle.value = event.target.value;
@@ -16,26 +17,35 @@ export const Card = ({ useStore }) => {
   const template = /* HTML */ `
     <div class="card">
       <div>
-        <h3 class="card-title" :new-counter="cardDescription">
-          {{ cardTitle }}
+        <h3 class="card-title" :new-counter="cardDescription.value">
+          {{ cardTitle.value }}
         </h3>
-        <p class="card-description">{{ cardDescription }}</p>
+        <p class="card-description">{{ cardDescription.value }}</p>
       </div>
 
       <Counter
-        :new-counter="cardTitle"
-        :new-id="cardTitle"
+        :new-counter="cardTitle.value"
+        :new-id="cardTitle.value"
         @increment="(event) => increment(event)"
         @decrement="decrement"
       >
+        <Insert name="message">
+          <p>
+            Hello from Counter's slot.
+          </p>
+        </Insert>
       </Counter>
 
-      <CurrentDate></CurrentDate>
+      <CurrentDate>
+        <Insert name="example">
+          <h3>{{ currentDate.value }}</h3>
+        </Insert>
+      </CurrentDate>
 
       <input
         class="card-input"
         placeholder="Enter title..."
-        :value="cardTitle"
+        :value="cardTitle.value"
         @input="onInput"
       />
     </div>
@@ -85,6 +95,8 @@ export const Card = ({ useStore }) => {
 
     cardTitle,
     cardDescription,
+
+    currentDate,
 
     onInput,
     increment,
