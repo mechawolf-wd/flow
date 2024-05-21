@@ -1,18 +1,19 @@
 export const props = ["card-title-bound"];
 
-export const Card = ({ useStore }) => {
-  const increment = (payload) => {
-    payload.detail.effect();
-  };
-
-  const decrement = (payload) => payload.detail.effect();
-
+export const Card = ({ useStore, useRouter }) => {
   const { cardTitle, cardDescription } = useStore("cardStore");
   const { currentDate } = useStore("dateStore");
 
   const onInput = (event) => {
     cardTitle.value = event.target.value;
   };
+
+  const { path } = useRouter();
+
+  const changePath = (newPath) => {
+    alert('changePath', newPath)
+    path.value = newPath;
+  }
 
   const template = /* HTML */ `
     <div class="card">
@@ -26,8 +27,7 @@ export const Card = ({ useStore }) => {
       <Counter
         :new-counter="cardTitle.value"
         :new-id="cardTitle.value"
-        @increment="(event) => increment(event)"
-        @decrement="decrement"
+        @change-path="() => changePath('/new-path')"
       >
         <Insert name="message">
           <p>
@@ -99,7 +99,6 @@ export const Card = ({ useStore }) => {
     currentDate,
 
     onInput,
-    increment,
-    decrement,
+    changePath
   };
 };

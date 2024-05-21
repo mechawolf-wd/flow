@@ -5,39 +5,27 @@ export const emits = ["new-emit-attribute"];
 export const Counter = ({
     ref,
     computed,
-    emit,
     useStore,
-    watch,
-    onMounted,
-    onBeforeMount,
     props: { newId, newCounter },
 }) => {
-    let counter = ref(1);
-    let exampleNumber = ref(100);
+    const counter = ref(1);
+    const exampleNumber = ref(100);
 
     const computedValue = computed(() => {
-        return (counter.value + exampleNumber.value) % 2 === 0 ? "Even." : "Odd.";
+        return counter.value + exampleNumber.value;
     });
 
     const { cardTitle } = useStore("cardStore");
 
     const incrementCounter = () => {
-        emit("increment", {
-            effect: () => {
-                counter.value += 1;
-            },
-        });
+        counter.value += 1;
     };
 
     const decrementCounter = () => {
-        emit("decrement", {
-            effect: () => {
-                counter.value -= 1;
-            },
-        });
+        counter.value -= 1;
     };
 
-    const demoText = "Demo - two way binding."
+    const demoText = "Demo - two way binding.";
 
     const demoTwoWayBinding = () => {
         cardTitle.value = "Two way binding works!";
@@ -47,18 +35,14 @@ export const Counter = ({
         {
             name: "Bart",
             age: 20,
-            status: '😊'
+            status: "😊",
         },
         {
             name: "Paul",
             age: 25,
-            status: '😊'
-        }
+            status: "😊",
+        },
     ]);
-
-    setTimeout(() => {
-        humans.value = [...humans.value, { name: "Roger", age: 30, status: '😟' }]
-    }, 2000);
 
     const template = /* HTML */ `
         <div class="counter">
@@ -69,19 +53,19 @@ export const Counter = ({
             <div style="display: flex; justify-content: space-between; gap: 24px;">
                 <button class="btn" @click="incrementCounter">Increment ++</button>
                 <button class="btn" @click="decrementCounter">Decrement --</button>
-                <button class="btn special" @click="demoTwoWayBinding">
+                <button class="btn special" @click="() => $emit('change-path')">
                     {{ demoText }}
                 </button>
             </div>
 
-            <Drawer name="message" :if="counter.value % 2 === 0"></Drawer>
+            <Drawer name="message" :if="$path.value === '/new-path'"></Drawer>
 
             <Loop :for="human of humans.value">
                 <div class="loop-item">
-                    <p>{{ human.name }}</p>
-                    <p>{{ human.age }}</p>
-                    <p>{{ human.status }}</p>
-                    <input type="checkbox" :checked="cardTitle.value.length > 3" />
+                <p>{{ human.name }}</p>
+                <p>{{ human.age }}</p>
+                <p>{{ human.status }}</p>
+                <input type="checkbox" :checked="cardTitle.value.length > 3" />
                 </div>
             </Loop>
         </div>
