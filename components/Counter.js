@@ -2,18 +2,17 @@ export const props = ["new-id", "new-counter"];
 
 export const emits = ["new-emit-attribute"];
 
-export const Counter = ({
-    ref,
-    computed,
-    useStore,
-    props: { newId, newCounter },
-}) => {
+export const Counter = (Context) => {
     const counter = ref(1);
     const exampleNumber = ref(100);
 
     const computedValue = computed(() => {
         return counter.value + exampleNumber.value;
     });
+
+    watch(computedValue, (n, p) => {
+        console.log(n, p)
+    })
 
     const { cardTitle } = useStore("cardStore");
 
@@ -58,7 +57,7 @@ export const Counter = ({
                 </button>
             </div>
 
-            <Drawer name="message" :if="$path.value === '/new-path'"></Drawer>
+            <Drawer name="message"></Drawer>
 
             <Loop :for="human of humans.value">
                 <div class="loop-item">

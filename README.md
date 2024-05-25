@@ -30,6 +30,7 @@ Flow-JS is an innovative JavaScript framework tailored for building interactive 
 11. Implement deep object watching.
 12. Make events aware of context - now they don't get reactive variables' values.
 13. Investigate why would `header` component be rendered twice (due to naming conflict).
+14. Use Functions constructor to handle no-context-destructurized component template.
 
 ## Second Line of TODOs
 

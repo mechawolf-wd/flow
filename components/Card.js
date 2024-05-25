@@ -1,6 +1,6 @@
 export const props = ["card-title-bound"];
 
-export const Card = ({ useStore, useRouter }) => {
+export const Card = () => {
   const { cardTitle, cardDescription } = useStore("cardStore");
   const { currentDate } = useStore("dateStore");
 
@@ -11,33 +11,29 @@ export const Card = ({ useStore, useRouter }) => {
   const { path } = useRouter();
 
   const changePath = (newPath) => {
-    alert('changePath', newPath)
     path.value = newPath;
   }
 
   const template = /* HTML */ `
     <div class="card">
       <div>
-        <h3 class="card-title" :new-counter="cardDescription.value">
+        <h3 class="card-title">
           {{ cardTitle.value }}
         </h3>
         <p class="card-description">{{ cardDescription.value }}</p>
       </div>
+
 
       <Counter
         :new-counter="cardTitle.value"
         :new-id="cardTitle.value"
         @change-path="() => changePath('/new-path')"
       >
-        <Insert name="message">
-          <p>
-            Hello from Counter's drawer.
-          </p>
-        </Insert>
+        <Drawer name="message"></Drawer>
       </Counter>
 
       <CurrentDate>
-        <Insert name="example">
+        <Insert name="example-drawer">
           <h3>{{ currentDate.value }}</h3>
         </Insert>
       </CurrentDate>
@@ -47,6 +43,7 @@ export const Card = ({ useStore, useRouter }) => {
         placeholder="Enter title..."
         :value="cardTitle.value"
         @input="onInput"
+        type="text"
       />
     </div>
   `;

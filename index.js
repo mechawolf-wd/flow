@@ -9,8 +9,9 @@ import * as Card from "./components/Card.js";
 import * as Counter from "./components/Counter.js";
 import * as CurrentDate from "./components/CurrentDate.js";
 import * as Header from "./components/Header.js";
+import * as Example from "./components/Example.js";
 
 Flow.defineStores([cardStore, dateStore]);
-Flow.defineComponents([App, Card, Counter, CurrentDate, Header]);
+Flow.defineComponents([App, Card, Counter, CurrentDate, Header, Example]);
 
 Flow.render();
