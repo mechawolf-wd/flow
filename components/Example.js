@@ -1,11 +1,11 @@
-export const Example = () => {
-    const template = /* HTML */ ` <h2 class="heading-2">Example content!</h2> `;
+export const template = /* HTML */ `
+  <h2 class="heading-2">Example content!</h2>
+`;
 
-    const style = /* CSS */ `
-        .heading-2 {
-            color: red;
-        }
-    `;
+export const Example = () => { };
 
-    return { template, style };
-};
+export const style = /* CSS */ `
+    .heading-2 {
+        color: red;
+    }
+`;

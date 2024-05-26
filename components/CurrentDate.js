@@ -1,36 +1,31 @@
-export const CurrentDate = () => {
-    const template = /* HTML */ `
-        <div class="simple-demo-component">
-            <Drawer name="example-drawer"></Drawer>
-        </div>
-    `;
+export const template = /* HTML */ `
+    <div class="simple-demo-component">
+        <Drawer name="example-drawer"></Drawer>
+    </div>
+`;
 
-    const style = /* CSS */ `
-        .simple-demo-component {
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f0f0;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+export const CurrentDate = () => { };
 
-        button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
+export const style = /* CSS */ `
+    .simple-demo-component {
+        font-family: 'Arial', sans-serif;
+        background-color: #f0f0f0;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-        button:hover {
-            background-color: #0056b3;
-        }
-    `;
+    button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
 
-    return {
-        template,
-        style
-    };
-};
+    button:hover {
+        background-color: #0056b3;
+    }
+`;

@@ -54,7 +54,7 @@ Flow-JS is an innovative JavaScript framework tailored for building interactive 
 4. Custom events handling with the emit() method.
 5. Directives for conditional rendering and loops (naming convention: `:if`, `:for`).
 6. Event handling with the `@event` directive.
-7. Data binding possible with prepending `:` to the attribute name.
+7. Data binding possible with prepending `:` to the atwttribute name.
 8. watch() method for watching reactive variables.
 9. Looping through arrays with the `<Loop></Loop>` component.
 10. Reactive props that are defined with the `props` array.
