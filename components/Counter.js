@@ -2,7 +2,7 @@ export const props = ["new-id", "new-counter"];
 
 export const emits = ["new-emit-attribute"];
 
-export const Counter = (Context) => {
+export const Counter = () => {
     const counter = ref(1);
     const exampleNumber = ref(100);
 
@@ -61,10 +61,10 @@ export const Counter = (Context) => {
 
             <Loop :for="human of humans.value">
                 <div class="loop-item">
-                <p>{{ human.name }}</p>
-                <p>{{ human.age }}</p>
-                <p>{{ human.status }}</p>
-                <input type="checkbox" :checked="cardTitle.value.length > 3" />
+                    <p>{{ human.name }}</p>
+                    <p>{{ human.age }}</p>
+                    <p>{{ human.status }}</p>
+                    <input type="checkbox" :checked="cardTitle.value.length > 3" />
                 </div>
             </Loop>
         </div>
