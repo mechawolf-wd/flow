@@ -2,6 +2,8 @@ export const props = ["card-title-bound"];
 
 export const template = /* HTML */ `
   <div class="card">
+    <Example></Example>
+
     <div>
       <h3 class="card-title">{{ cardTitle.value }}</h3>
       <p class="card-description">{{ cardDescription.value }}</p>
@@ -10,7 +12,7 @@ export const template = /* HTML */ `
     <Counter
       :new-counter="cardTitle.value"
       :new-id="cardTitle.value"
-      @change-path="() => changePath('/new-path')"
+      @change-path="changePath('/new-path')"
     >
       <Drawer name="message"></Drawer>
     </Counter>

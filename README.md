@@ -31,6 +31,8 @@ Flow-JS is an innovative JavaScript framework tailored for building interactive 
 12. Make events aware of context - now they don't get reactive variables' values.
 13. Investigate why would `header` component be rendered twice (due to naming conflict).
 14. Use Functions constructor to handle no-context-destructurized component template.
+15. Expand ref's ability to handle reactive updates when nested objects are defined in its body.
+16. Change reactive variable's parameter names (configuration, variableReference) so that they don't clash with others.
 
 ## Second Line of TODOs
 

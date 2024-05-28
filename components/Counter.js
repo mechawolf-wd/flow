@@ -11,7 +11,7 @@ export const template = /* HTML */ `
     <div style="display: flex; justify-content: space-between; gap: 24px;">
       <button class="btn" @click="incrementCounter">Increment ++</button>
       <button class="btn" @click="decrementCounter">Decrement --</button>
-      <button class="btn special" @click="() => $emit('change-path')">
+      <button class="btn special" @click="$emit('change-path')">
         {{ demoText }}
       </button>
     </div>
@@ -38,7 +38,7 @@ export const Counter = () => {
     });
 
     watch(computedValue, (n, p) => {
-        console.log(n, p);
+        // console.log(n, p);
     });
 
     const { cardTitle } = useStore("cardStore");
