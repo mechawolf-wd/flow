@@ -1,4 +1,4 @@
-export const template = /* HTML */ `
+export const Template =/* HTML */ `
     <div class="simple-demo-component">
         <Drawer name="example-drawer"></Drawer>
     </div>
@@ -6,7 +6,7 @@ export const template = /* HTML */ `
 
 export const CurrentDate = () => { };
 
-export const style = /* CSS */ `
+export const Style = /* CSS */ `
     .simple-demo-component {
         font-family: 'Arial', sans-serif;
         background-color: #f0f0f0;

@@ -1,6 +1,6 @@
-export const props = ["card-title-bound"];
+export const Props = ["card-title-bound"];
 
-export const template = /* HTML */ `
+export const Template =/* HTML */ `
   <div class="card">
     <Example></Example>
 
@@ -22,6 +22,8 @@ export const template = /* HTML */ `
         <h3>{{ currentDate.value }}</h3>
       </Insert>
     </CurrentDate>
+
+    <TestingReactivity></TestingReactivity>
 
     <input
       class="card-input"
@@ -58,7 +60,7 @@ export const Card = () => {
   };
 };
 
-export const style = /* CSS */ `
+export const Style = /* CSS */ `
   .card {
       font-family: 'Arial', sans-serif;
       background: #ffffff; /* White background */

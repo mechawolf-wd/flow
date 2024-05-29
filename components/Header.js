@@ -1,10 +1,10 @@
-export const template = /* HTML */ `
+export const Template =/* HTML */ `
   <h1>Flow</h1>
 `;
 
 export const Header = () => { };
 
-export const style = /* CSS */ `
+export const Style = /* CSS */ `
   header {
     background-color: #333;
     color: #fff;

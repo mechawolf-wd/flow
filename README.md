@@ -19,20 +19,18 @@ Flow-JS is an innovative JavaScript framework tailored for building interactive 
 
 1. Make props readonly!
 2. Implement the `once` directive to bind events or effects that should only execute once.
-3. Use reactive props that bind directly to object properties instead of reading from DOM attributes.
-4. Cache the values in loop's expressions.
-5. Fix Checkboxes - if touched once, they keep their user-manipulated state.
-6. Decide whether to keep `<loop></loop>` tags inside production HTML.
-7. Implement `ref=""` directive for referencing DOM elements.
-8. Implement the user's ability to watch props.
-9. Implement a handling mechanism for components' names casing. eg. CurrentDate -> `<current-date>`... (x) `<currentdate>`
-10. Remove repetition of saving attributes' contents eg. :for.
-11. Implement deep object watching.
-12. Make events aware of context - now they don't get reactive variables' values.
-13. Investigate why would `header` component be rendered twice (due to naming conflict).
-14. Use Functions constructor to handle no-context-destructurized component template.
-15. Expand ref's ability to handle reactive updates when nested objects are defined in its body.
-16. Change reactive variable's parameter names (configuration, variableReference) so that they don't clash with others.
+3. Cache the values in loop's expressions.
+4. Fix Checkboxes - if touched once, they keep their user-manipulated state.
+5. Decide whether to keep `<loop></loop>` tags inside production HTML.
+6. Implement `ref=""` directive for referencing DOM elements.
+7. Implement a handling mechanism for components' names casing. eg. CurrentDate -> `<current-date>`... (x) `<currentdate>`
+8. Implement deep object watching. (in progress)
+9. Make events aware of context - now they don't get reactive variables' values.
+10. Investigate why would `header` component be rendered twice (due to naming conflict).
+11. Use Functions constructor to handle no-context-destructurized component template.
+12. Expand ref's ability to handle reactive updates when nested objects are defined in its body.
+13. Change reactive variable's parameter names (configuration, variableReference) so that they don't clash with others.
+14. Implement watcher's ability to watch for nested reactive objects changes.
 
 ## Second Line of TODOs
 
@@ -46,7 +44,8 @@ Flow-JS is an innovative JavaScript framework tailored for building interactive 
 2. Introduce TypeScript support for improved development experience and type safety.
 3. Implement the `f-model=""` directive for two-way data binding.
 4. Fix computeds running only if they are returned and gotten from the useStore().
-5. Introduce recursive components.
+5. Remove repetition of saving attributes' contents eg. :for.
+6. Introduce recursive components.
 
 ## Implemented Features
 
@@ -68,11 +67,11 @@ Flow-JS is an innovative JavaScript framework tailored for building interactive 
 ## Example Component: Counter
 
 `````javascript
-export const props = ["new-id", "new-counter"];
+export const Props = ["new-id", "new-counter"];
 
-export const emits = ["new-emit-attribute"];
+export const Emits = ["new-emit-attribute"];
 
-export const template = ```html`
+export const Template =```html`
   <div class="counter">
     <div class="counter-display">
       Counter: {{ counter.value }} + {{ exampleNumber.value }} = {{
@@ -155,7 +154,7 @@ export const Counter = () => {
   };
 };
 
-export const style = `
+export const Style = `
     .counter {
         font-family: 'Arial', sans-serif;
         background: #f8f9fa; /* Light background similar to Bootstrap forms */

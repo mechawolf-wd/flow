@@ -1,8 +1,8 @@
-export const props = ["new-id", "new-counter"];
+export const Props = ["new-id", "new-counter"];
 
-export const emits = ["new-emit-attribute"];
+export const Emits = ["new-emit-attribute"];
 
-export const template = /* HTML */ `
+export const Template =/* HTML */ `
   <div class="counter">
     <div class="counter-display">
       Counter: {{ counter.value }} + {{ exampleNumber.value }} = {{ computedValue.value }}
@@ -84,7 +84,7 @@ export const Counter = () => {
     };
 };
 
-export const style = /* CSS */ `
+export const Style = /* CSS */ `
     .counter {
         font-family: 'Arial', sans-serif;
         background: #f8f9fa; /* Light background similar to Bootstrap forms */

@@ -1,4 +1,4 @@
-export const template = /* HTML */ `
+export const Template =/* HTML */ `
   <Header></Header>
   <div class="exampleClass">
     <Card :card-title-bound="200 + 300">

@@ -1,4 +1,4 @@
-export const template = /* HTML */ `
+export const Template =/* HTML */ `
   <div class="example-container">
     <p class="example-property">{{ example['number-0'] }}</p>
     <p class="example-property">{{ example['number-1'] }}</p>
@@ -39,7 +39,7 @@ export const Example = () => {
   };
 };
 
-export const style = /* CSS */ `
+export const Style = /* CSS */ `
   .example-container {
     display: flex;
     justify-content: space-between;

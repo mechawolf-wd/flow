@@ -10,8 +10,9 @@ import * as Counter from "./components/Counter.js";
 import * as CurrentDate from "./components/CurrentDate.js";
 import * as Header from "./components/Header.js";
 import * as Example from "./components/Example.js";
+import * as TestingReactivity from "./components/TestingReactivity.js";
 
 Flow.defineStores([cardStore, dateStore]);
-Flow.defineComponents([App, Card, Counter, CurrentDate, Header, Example]);
+Flow.defineComponents([App, Card, Counter, CurrentDate, Header, Example, TestingReactivity]);
 
 Flow.render();
