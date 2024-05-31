@@ -1,26 +1,26 @@
-const moduleURL = './components/NewSyntax.js';
+let moduleURL = "./components/NewSyntax.js";
 
 const definitions = [
-    "const ref = $FlowEngine.ref\n",
-    "const computed = $FlowEngine.computed\n"
-]
+    "const testing_ref = (value) => value ** 2\n",
+    "const testing_computed = (value) => value ** 2\n",
+    "\n"
+];
 
-const appendCode = (code, definitions) => {
-    return definitions.join('') + code
-}
+const appendCodeWithDefinitions = (code, definitions) => {
+    return definitions.join("") + code;
+};
 
-fetch(moduleURL)
-    .then(response => response.text())
-    .then(code => {
-        code = appendCode(code, definitions)
+export const getComponentModule = async () => {
+    let response = await fetch(moduleURL)
+    let moduleCode = await response.text()
 
-        const blob = new Blob([code], { type: 'application/javascript' })
+    moduleCode = appendCodeWithDefinitions(moduleCode, definitions);
 
-        const moduleURL = URL.createObjectURL(blob);
+    const blob = new Blob([moduleCode], { type: "application/javascript" });
 
-        import(moduleURL).then(module => {
-            $FlowEngine.defineComponentModule(module, 'NewSyntax', true);
+    moduleURL = URL.createObjectURL(blob);
 
-            URL.revokeObjectURL(moduleURL);
-        })
-    })
+    const outputModule = await import(moduleURL)
+
+    return { outputModule, moduleURL }
+};

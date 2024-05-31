@@ -41,7 +41,7 @@ export const Counter = () => {
         // console.log(n, p);
     });
 
-    const { cardTitle } = useStore("cardStore");
+    const { cardTitle } = stores.cardStore;
 
     const incrementCounter = () => {
         counter.value += 1;

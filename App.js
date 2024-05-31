@@ -12,7 +12,7 @@ export const Template =/* HTML */ `
 `;
 
 export const App = () => {
-  const { cardTitle } = useStore('cardStore')
+  const { cardTitle } = stores.cardStore
 
   return { cardTitle };
 };

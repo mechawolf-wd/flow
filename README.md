@@ -43,7 +43,7 @@ Flow-JS is an innovative JavaScript framework tailored for building interactive 
 1. Add support for SCSS to enhance styling capabilities.
 2. Introduce TypeScript support for improved development experience and type safety.
 3. Implement the `f-model=""` directive for two-way data binding.
-4. Fix computeds running only if they are returned and gotten from the useStore().
+4. Fix computeds running only if they are returned and gotten from the stores.
 5. Remove repetition of saving attributes' contents eg. :for.
 6. Introduce recursive components.
 
@@ -51,7 +51,7 @@ Flow-JS is an innovative JavaScript framework tailored for building interactive 
 
 1. Reactive variables that can be interpolated in template with {{ example.value }}.
 2. Computed properties that recompute their value when one of the dependencies change.
-3. Global state management with the useStore() hook.
+3. Global state management with the stores variable.
 4. Custom events handling with the emit() method.
 5. Directives for conditional rendering and loops (naming convention: `:if`, `:for`).
 6. Event handling with the `@event` directive.
@@ -111,7 +111,7 @@ export const Counter = () => {
     console.log(n, p);
   });
 
-  const { cardTitle } = useStore("cardStore");
+  const { cardTitle } = stores.cardStore;
 
   const incrementCounter = () => {
     counter.value += 1;

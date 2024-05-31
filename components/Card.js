@@ -23,7 +23,7 @@ export const Template =/* HTML */ `
       </Insert>
     </CurrentDate>
 
-    <TestingReactivity></TestingReactivity>
+    <TestingReactivity :reactive-prop="cardTitle.value"></TestingReactivity>
 
     <input
       class="card-input"
@@ -36,8 +36,8 @@ export const Template =/* HTML */ `
 `;
 
 export const Card = () => {
-  const { cardTitle, cardDescription } = useStore("cardStore");
-  const { currentDate } = useStore("dateStore");
+  const { cardTitle, cardDescription } = stores.cardStore;
+  const { currentDate } = stores.dateStore;
 
   const onInput = (event) => {
     cardTitle.value = event.target.value;
