@@ -1,0 +1,20 @@
+{
+  "name": "floden",
+  "version": "1.0.0",
+  "description": "<img src=\"https://img.shields.io/badge/Firefox-FF7139?style=for-the-badge&logo=Firefox-Browser&logoColor=white\"> <img src=\"https://img.shields.io/badge/Google%20Chrome-4285F4?style=for-the-badge&logo=GoogleChrome&logoColor=white\"> <img src=\"https://img.shields.io/badge/Safari-000000?style=for-the-badge&logo=Safari&logoColor=white\"><br>",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mechawolf-wd/flow.git"
+  },
+  "author": "mechawolf-wd",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mechawolf-wd/flow/issues"
+  },
+  "homepage": "https://github.com/mechawolf-wd/flow#readme"
+}
