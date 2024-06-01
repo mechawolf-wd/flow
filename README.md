@@ -1,4 +1,4 @@
-# Flow-JS Framework
+# Vind-JS Framework
 
 <img src="https://img.shields.io/badge/Firefox-FF7139?style=for-the-badge&logo=Firefox-Browser&logoColor=white">
 <img src="https://img.shields.io/badge/Google%20Chrome-4285F4?style=for-the-badge&logo=GoogleChrome&logoColor=white">
@@ -6,7 +6,7 @@
 
 ## Overview
 
-Flow-JS is an innovative JavaScript framework tailored for building interactive user interfaces with a strong emphasis on reactivity and state management. It simplifies the creation of complex UI components and ensures that your application remains both performant and scalable.
+Vind-JS is a minimalist JavaScript framework tailored for building interactive user interfaces with a strong emphasis on reactivity and state management. Unlike other frameworks, Vind-JS does not require a build step, node_modules, or any additional libraries. It is solely JavaScript, making it lightweight and easy to integrate into any project. Vind-JS resembles Vue.js in its approach, providing a familiar and efficient development experience.
 
 ## Features
 
@@ -14,6 +14,8 @@ Flow-JS is an innovative JavaScript framework tailored for building interactive 
 - 📦 **Efficient State Management**: Comes with built-in methods for managing global and local states, enhancing the predictability of data flow.
 - 🔧 **Advanced Directives**: Supports modern directives such as `:for` for loops, `:if` for conditional rendering, and `@event` for handling events.
 - 🛠 **Modular Architecture**: Encourages the use of reusable, modular components that can be easily integrated and tested.
+- 🚀 **No Build Step**: Directly include Vind-JS in your project without any build process.
+- 🛡 **Zero Dependencies**: No need for node_modules or additional libraries.
 
 ## First Line of Necessary TODOs
 
@@ -33,7 +35,7 @@ Flow-JS is an innovative JavaScript framework tailored for building interactive 
 
 1. Explore how to handle nested loops effectively.
 2. Enhance the system for reactive array updates to ensure minimal DOM manipulation.
-3. Implement `ref=""` irective for referencing DOM elements.
+3. Implement `ref=""` directive for referencing DOM elements.
 4. Decide whether to keep `<loop></loop>` tags inside production HTML.
 5. Cache values inside observers (computed properties) to optimize performance.
 
@@ -41,46 +43,47 @@ Flow-JS is an innovative JavaScript framework tailored for building interactive 
 
 1. Add support for SCSS to enhance styling capabilities.
 2. Introduce TypeScript support for improved development experience and type safety.
-3. Implement the `f-model=""` directive for two-way data binding.
+3. Implement the `v-model=""` directive for two-way data binding.
 4. Fix computed properties running only if they are returned and gotten from the stores.
 5. Remove repetition of saving attributes' contents eg. :for.
 6. Introduce recursive components.
 
 ## Implemented Features
 
-1. Reactive variables that can be interpolated in template with {{ example.value }}.
+1. Reactive variables that can be interpolated in template with `{{ example.value }}`.
 2. Computed properties that recompute their value when one of the dependencies change.
-3. Global state management with the stores variable.
-4. Custom events handling with the emit() method.
+3. Global state management with the `stores` variable.
+4. Custom events handling with the `emit()` method.
 5. Directives for conditional rendering and loops (naming convention: `:if`, `:for`).
 6. Event handling with the `@event` directive.
-7. Data binding possible with prepending `:` to the atwttribute name.
-8. watch() method for watching reactive variables.
+7. Data binding possible with prepending `:` to the attribute name.
+8. `watch()` method for watching reactive variables.
 9. Looping through arrays with the `<Loop></Loop>` component.
 10. Reactive props that are defined with the `props` array.
-11. onMounted and onBeforeMount lifecycle hooks.
-12. <Insert> component for putting HTML content into <Drawer> tags. aka. slots and templates.
+11. `onMounted` and `onBeforeMount` lifecycle hooks.
+12. `<Insert>` component for putting HTML content into `<Drawer>` tags, aka slots and templates.
 13. No-import components that are automatically imported and registered.
-14. <Loop> component that loops through arrays.
+14. `<Loop>` component that loops through arrays.
 15. Deep reactive objects that rerender influenced DOM nodes and attributes.
 
 ## Example Component: Counter
 
 `````javascript
 export const Props = {
-    newId: {
-        type: String,
-        default: ''
-    },
-    newCounter: {
-        type: String,
-        default: ''
-    }
-}
+  newId: {
+    type: String,
+    default: "",
+    required: true,
+  },
+  newCounter: {
+    type: String,
+    default: "",
+  },
+};
 
 export const Emits = ["new-emit-attribute"];
 
-export const Template =```html`
+export const Template = ```HTML`
   <div class="counter">
     <div class="counter-display">
       Counter: {{ counter.value }} + {{ exampleNumber.value }} = {{
