@@ -2,7 +2,7 @@ export const Props = {
   cardTitleBound: {
     type: 'string',
     default: "",
-    required: true
+    required: false
   },
 };
 
@@ -29,13 +29,21 @@ export const Template = /* HTML */ `
       </Insert>
     </CurrentDate>
 
+    <Tabs></Tabs>
+
     <TestingReactivity :reactive-prop="cardTitle.value"></TestingReactivity>
 
     <input
       class="card-input"
       placeholder="Enter title..."
-      :value="cardTitle.value"
-      @input="onInput"
+      :model="cardTitle"
+      type="checkbox"
+    />
+
+    <input
+      class="card-input"
+      placeholder="Enter title..."
+      :model="cardTitle"
       type="text"
     />
   </div>

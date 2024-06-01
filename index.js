@@ -11,8 +11,9 @@ import * as CurrentDate from "./components/CurrentDate.js";
 import * as Header from "./components/Header.js";
 import * as Example from "./components/Example.js";
 import * as TestingReactivity from "./components/TestingReactivity.js";
+import * as Tabs from "./components/Tabs.js";
 
 Vind.defineStores([cardStore, dateStore]);
-Vind.defineComponents([App, Card, Counter, CurrentDate, Header, Example, TestingReactivity]);
+Vind.defineComponents([App, Card, Counter, CurrentDate, Header, Example, TestingReactivity, Tabs]);
 
 Vind.render();

@@ -168,7 +168,6 @@ export const Counter = () => {
 
 export const Style = `
     .counter {
-        font-family: 'Arial', sans-serif;
         background: #f8f9fa; /* Light background similar to Bootstrap forms */
         color: #343a40; /* Default Bootstrap text color */
         border: 1px solid #dee2e6; /* Light grey border */

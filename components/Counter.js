@@ -95,7 +95,6 @@ export const Counter = () => {
 
 export const Style = /* CSS */ `
     .counter {
-        font-family: 'Arial', sans-serif;
         background: #f8f9fa; /* Light background */
         color: #343a40; /* Default text color */
         border: 1px solid #dee2e6; /* Light grey border */

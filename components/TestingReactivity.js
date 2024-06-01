@@ -48,7 +48,6 @@ export const Style = /* CSS */ `
     .reactivity-container {
         display: grid;
         gap: 1rem;
-        font-family: 'Arial', sans-serif;
         background: #f8f9fa; /* Light background */
         color: #343a40; /* Dark text */
         padding: 1rem;
