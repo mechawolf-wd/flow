@@ -67,7 +67,16 @@ Flow-JS is an innovative JavaScript framework tailored for building interactive 
 ## Example Component: Counter
 
 `````javascript
-export const Props = ["new-id", "new-counter"];
+export const Props = {
+    newId: {
+        type: String,
+        default: ''
+    },
+    newCounter: {
+        type: String,
+        default: ''
+    }
+}
 
 export const Emits = ["new-emit-attribute"];
 

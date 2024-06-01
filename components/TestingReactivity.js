@@ -1,47 +1,49 @@
-export const Props = ['reactive-prop', 'something-else']
+export const Props = {
+    reactiveProp: {
+        type: String,
+        default: 'default asdfohasf'
+    }
+}
 
 export const TestingReactivity = () => {
+    const { cardTitle } = stores.cardStore
+
     const test = ref({
         hello: 'Hello World!',
-        nested: {
-            hello: 'Nested Hello World!'
-        },
         a: {
             b: {
                 c: {
                     d: {
-                        hello: 'Deeply nested Hello World!',
+                        nested: 'Deeply nested Hello World!',
                     }
                 }
             }
+        },
+        b: {
+            nested: () => cardTitle.value
         }
     })
 
-    watch(() => props.reactiveProp.value, (newValue, oldValue) => {
+    watch(props.reactiveProp, (newValue, oldValue) => {
         console.log(newValue, oldValue)
     })
 
-    const { cardTitle } = stores.cardStore
-
-    cardTitle.value = 'random title'
-
     setTimeout(() => {
-        test.a.b.c.d.hello = 'Change me!'
+        test.a.b.c.d.nested = 'Change me!'
     }, 2000);
-
-    setTimeout(() => {
-        test.nested.hello = "I got changed!"
-    }, 1000);
 
     return { test, cardTitle }
 };
 
 export const Template = /* HTML */ `
     <div style="display: grid">
-        <input type="text" :value="test.a.b.c.d.hello" />
-        {{ test.a.b.c.d.hello }}
-        {{ test.nested.hello }}
-        {{ reactiveProp.value }}
+        <input type="text" :value="test.a.b.c.d.nested" />
+        <p>{{ test.a.b.c.d.nested }}</p>
+        <p>{{ test.b.nested }}</p>
+        <p>
+            {{ test.c }}
+        </p>
+        <pre>{{ JSON.stringify(test, null, 2) }}</pre>
     </div>
 `;
 

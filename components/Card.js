@@ -1,6 +1,11 @@
-export const Props = ["card-title-bound"];
+export const Props = {
+  cardTitleBound: {
+    type: String,
+    default: "",
+  },
+};
 
-export const Template =/* HTML */ `
+export const Template = /* HTML */ `
   <div class="card">
     <Example></Example>
 

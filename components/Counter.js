@@ -1,8 +1,17 @@
-export const Props = ["new-id", "new-counter"];
+export const Props = {
+    newId: {
+        type: String,
+        default: ''
+    },
+    newCounter: {
+        type: String,
+        default: 'Default value of newCounter.'
+    }
+}
 
 export const Emits = ["new-emit-attribute"];
 
-export const Template =/* HTML */ `
+export const Template = /* HTML */ `
   <div class="counter">
     <div class="counter-display">
       Counter: {{ counter.value }} + {{ exampleNumber.value }} = {{ computedValue.value }}
