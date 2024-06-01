@@ -22,14 +22,8 @@ Vind-JS is a minimalist JavaScript framework tailored for building interactive u
 1. Make props readonly!
 2. Implement the `once` directive to bind events or effects that should only execute once.
 3. Cache the values in loop's expressions.
-4. Fix Checkboxes - if touched once, they keep their user-manipulated state.
-5. Implement a handling mechanism for components' names casing. eg. CurrentDate -> `<current-date>`... (x) `<currentdate>`
-6. Make events aware of context - now they don't get reactive variables' values.
-7. Investigate why would `header` component be rendered twice (due to naming conflict).
-8. Use Functions constructor to handle no-context-destructurized component template.
-9. Expand ref's ability to handle reactive updates when nested objects are defined in its body.
-10. Change reactive variable's parameter names (configuration, variableReference) so that they don't clash with others.
-11. Implement watcher's ability to watch for nested reactive objects changes.
+4. Implement a handling mechanism for components' names casing. eg. CurrentDate -> `<current-date>`... (x) `<currentdate>`
+5. Investigate why would `header` component be rendered twice (due to naming conflict).
 
 ## Second Line of TODOs
 
@@ -43,10 +37,9 @@ Vind-JS is a minimalist JavaScript framework tailored for building interactive u
 
 1. Add support for SCSS to enhance styling capabilities.
 2. Introduce TypeScript support for improved development experience and type safety.
-3. Implement the `v-model=""` directive for two-way data binding.
-4. Fix computed properties running only if they are returned and gotten from the stores.
-5. Remove repetition of saving attributes' contents eg. :for.
-6. Introduce recursive components.
+3. Fix computed properties running only if they are returned and gotten from the stores.
+4. Remove repetition of saving attributes' contents eg. :for.
+5. Introduce recursive components.
 
 ## Implemented Features
 
@@ -123,7 +116,7 @@ export const Counter = () => {
     console.log(n, p);
   });
 
-  const { cardTitle } = stores.cardStore;
+  const { cardTitle } = $stores.cardStore;
 
   const incrementCounter = () => {
     counter.value += 1;

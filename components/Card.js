@@ -29,16 +29,7 @@ export const Template = /* HTML */ `
       </Insert>
     </CurrentDate>
 
-    <Tabs></Tabs>
-
     <TestingReactivity :reactive-prop="cardTitle.value"></TestingReactivity>
-
-    <input
-      class="card-input"
-      placeholder="Enter title..."
-      :model="cardTitle"
-      type="checkbox"
-    />
 
     <input
       class="card-input"
@@ -50,14 +41,10 @@ export const Template = /* HTML */ `
 `;
 
 export const Card = () => {
-  const { cardTitle, cardDescription } = stores.cardStore;
-  const { currentDate } = stores.dateStore;
+  const { cardTitle, cardDescription } = $stores.cardStore;
+  const { currentDate } = $stores.dateStore;
 
-  const onInput = (event) => {
-    cardTitle.value = event.target.value;
-  };
-
-  const { path } = useRouter();
+  const { path } = $router;
 
   const changePath = (newPath) => {
     path.value = newPath;
@@ -69,7 +56,6 @@ export const Card = () => {
 
     currentDate,
 
-    onInput,
     changePath,
   };
 };

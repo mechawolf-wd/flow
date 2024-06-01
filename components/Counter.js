@@ -42,6 +42,10 @@ export const Counter = () => {
     const counter = ref(1);
     const exampleNumber = ref(100);
 
+    setTimeout(() => {
+        $emit('change-path')
+    }, 2000);
+
     const computedValue = computed(() => {
         return counter.value + exampleNumber.value;
     });
@@ -50,7 +54,7 @@ export const Counter = () => {
         // console.log(n, p);
     });
 
-    const { cardTitle } = stores.cardStore;
+    const { cardTitle } = $stores.cardStore;
 
     const incrementCounter = () => {
         counter.value += 1;
