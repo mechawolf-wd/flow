@@ -50,6 +50,7 @@ export const Style = /* CSS */ `
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-bottom: 8px;
   }
 
   .example-container:hover {

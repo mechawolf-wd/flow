@@ -1,12 +1,12 @@
 export const Template =/* HTML */ `
-  <h1>Flow</h1>
+  <h1>Vind</h1>
 `;
 
 export const Header = () => { };
 
 export const Style = /* CSS */ `
   header {
-    background-color: #333;
+    background-color: #42b983; /* Vue.js green color */
     color: #fff;
     text-align: center;
     padding: 1rem;

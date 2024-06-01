@@ -2,5 +2,5 @@ test
 
 node_modules/*
 
-!node_modules/@flow
-!node_modules/@flow/**
+!node_modules/@vind
+!node_modules/@vind/**

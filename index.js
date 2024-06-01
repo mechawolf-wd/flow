@@ -1,6 +1,6 @@
 "use strict";
 
-import { Flow } from "./node_modules/@flow/index.js";
+import { Vind } from "./node_modules/@vind/index.js";
 
 import { cardStore } from "./store/cardStore.js";
 import { dateStore } from "./store/dateStore.js";
@@ -12,7 +12,7 @@ import * as Header from "./components/Header.js";
 import * as Example from "./components/Example.js";
 import * as TestingReactivity from "./components/TestingReactivity.js";
 
-Flow.defineStores([cardStore, dateStore]);
-Flow.defineComponents([App, Card, Counter, CurrentDate, Header, Example, TestingReactivity]);
+Vind.defineStores([cardStore, dateStore]);
+Vind.defineComponents([App, Card, Counter, CurrentDate, Header, Example, TestingReactivity]);
 
-Flow.render();
+Vind.render();

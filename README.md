@@ -21,29 +21,28 @@ Flow-JS is an innovative JavaScript framework tailored for building interactive 
 2. Implement the `once` directive to bind events or effects that should only execute once.
 3. Cache the values in loop's expressions.
 4. Fix Checkboxes - if touched once, they keep their user-manipulated state.
-5. Decide whether to keep `<loop></loop>` tags inside production HTML.
-6. Implement `ref=""` directive for referencing DOM elements.
-7. Implement a handling mechanism for components' names casing. eg. CurrentDate -> `<current-date>`... (x) `<currentdate>`
-8. Implement deep object watching. (in progress)
-9. Make events aware of context - now they don't get reactive variables' values.
-10. Investigate why would `header` component be rendered twice (due to naming conflict).
-11. Use Functions constructor to handle no-context-destructurized component template.
-12. Expand ref's ability to handle reactive updates when nested objects are defined in its body.
-13. Change reactive variable's parameter names (configuration, variableReference) so that they don't clash with others.
-14. Implement watcher's ability to watch for nested reactive objects changes.
+5. Implement a handling mechanism for components' names casing. eg. CurrentDate -> `<current-date>`... (x) `<currentdate>`
+6. Make events aware of context - now they don't get reactive variables' values.
+7. Investigate why would `header` component be rendered twice (due to naming conflict).
+8. Use Functions constructor to handle no-context-destructurized component template.
+9. Expand ref's ability to handle reactive updates when nested objects are defined in its body.
+10. Change reactive variable's parameter names (configuration, variableReference) so that they don't clash with others.
+11. Implement watcher's ability to watch for nested reactive objects changes.
 
 ## Second Line of TODOs
 
 1. Explore how to handle nested loops effectively.
 2. Enhance the system for reactive array updates to ensure minimal DOM manipulation.
-3. Cache values inside observers (computed properties) to optimize performance.
+3. Implement `ref=""` irective for referencing DOM elements.
+4. Decide whether to keep `<loop></loop>` tags inside production HTML.
+5. Cache values inside observers (computed properties) to optimize performance.
 
 ## Third Line of TODOs
 
 1. Add support for SCSS to enhance styling capabilities.
 2. Introduce TypeScript support for improved development experience and type safety.
 3. Implement the `f-model=""` directive for two-way data binding.
-4. Fix computeds running only if they are returned and gotten from the stores.
+4. Fix computed properties running only if they are returned and gotten from the stores.
 5. Remove repetition of saving attributes' contents eg. :for.
 6. Introduce recursive components.
 
@@ -63,6 +62,7 @@ Flow-JS is an innovative JavaScript framework tailored for building interactive 
 12. <Insert> component for putting HTML content into <Drawer> tags. aka. slots and templates.
 13. No-import components that are automatically imported and registered.
 14. <Loop> component that loops through arrays.
+15. Deep reactive objects that rerender influenced DOM nodes and attributes.
 
 ## Example Component: Counter
 
