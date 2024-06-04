@@ -1,20 +1,21 @@
 export const Props = {
     newId: {
-        type: 'string',
-        default: ''
+        type: "string",
+        default: "",
     },
     newCounter: {
-        type: 'string',
-        default: 'Default value of newCounter.'
-    }
-}
+        type: "string",
+        default: "Default value of newCounter.",
+    },
+};
 
 export const Emits = ["new-emit-attribute"];
 
 export const Template = /* HTML */ `
   <div class="counter">
     <div class="counter-display">
-      Counter: {{ counter.value }} + {{ exampleNumber.value }} = {{ computedValue.value }}
+      Counter: {{ counter.value }} + {{ exampleNumber.value }} = {{
+      computedValue.value }}
     </div>
 
     <div style="display: flex; justify-content: space-between; gap: 24px;">
@@ -27,12 +28,30 @@ export const Template = /* HTML */ `
 
     <Drawer name="message"></Drawer>
 
-    <Loop :for="human of humans.value">
+    <Loop :for="human of humans">
       <div class="loop-item">
         <p>{{ human.name }}</p>
         <p>{{ human.age }}</p>
         <p>{{ human.status }}</p>
         <input type="checkbox" :checked="cardTitle.value.length > 3" />
+      </div>
+    </Loop>
+
+    <Loop :for="human of humans">
+      <div class="loop-item">
+        <p>{{ human.name }}</p>
+        <p>{{ human.age }}</p>
+        <p>{{ human.status }}</p>
+        <input type="checkbox" :checked="cardTitle.value.length > 3" />
+      </div>
+    </Loop>
+
+    <Loop :for="type in types">
+      <div class="loop-item">
+        <input :model="type.value" />
+        {{ type.value }}
+        <p :if="type.value.length >= 2">More length!</p>
+        <p :if="type.value.length < 2">Not that much...</p>
       </div>
     </Loop>
   </div>
@@ -41,10 +60,6 @@ export const Template = /* HTML */ `
 export const Counter = () => {
     const counter = ref(1);
     const exampleNumber = ref(100);
-
-    setTimeout(() => {
-        $emit('change-path')
-    }, 2000);
 
     const computedValue = computed(() => {
         return counter.value + exampleNumber.value;
@@ -73,15 +88,21 @@ export const Counter = () => {
     const humans = ref([
         {
             name: "Bart",
-            age: 20,
+            age: 38,
             status: "😊",
         },
         {
             name: "Paul",
             age: 25,
             status: "😊",
-        }
+        },
     ]);
+
+    const types = ref(["text", "date", "color"]);
+
+    setTimeout(() => {
+        types.push("number");
+    }, 2000);
 
     return {
         counter,
@@ -89,6 +110,7 @@ export const Counter = () => {
         computedValue,
         cardTitle,
         humans,
+        types,
         demoText,
 
         incrementCounter,

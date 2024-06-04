@@ -61,22 +61,21 @@ Vind-JS is a minimalist JavaScript framework tailored for building interactive u
 
 ## Example Component: Counter
 
-`````javascript
+```````javascript
 export const Props = {
   newId: {
-    type: String,
+    type: "string",
     default: "",
-    required: true,
   },
   newCounter: {
-    type: String,
-    default: "",
+    type: "string",
+    default: "Default value of newCounter.",
   },
 };
 
 export const Emits = ["new-emit-attribute"];
 
-export const Template = ```HTML`
+export const Template = ```html`
   <div class="counter">
     <div class="counter-display">
       Counter: {{ counter.value }} + {{ exampleNumber.value }} = {{
@@ -86,7 +85,7 @@ export const Template = ```HTML`
     <div style="display: flex; justify-content: space-between; gap: 24px;">
       <button class="btn" @click="incrementCounter">Increment ++</button>
       <button class="btn" @click="decrementCounter">Decrement --</button>
-      <button class="btn special" @click="() => $emit('change-path')">
+      <button class="btn special" @click="$emit('change-path')">
         {{ demoText }}
       </button>
     </div>
@@ -102,18 +101,22 @@ export const Template = ```HTML`
       </div>
     </Loop>
   </div>
-````;
+``````;
 
 export const Counter = () => {
   const counter = ref(1);
   const exampleNumber = ref(100);
+
+  setTimeout(() => {
+    $emit("change-path");
+  }, 2000);
 
   const computedValue = computed(() => {
     return counter.value + exampleNumber.value;
   });
 
   watch(computedValue, (n, p) => {
-    console.log(n, p);
+    // console.log(n, p);
   });
 
   const { cardTitle } = $stores.cardStore;
@@ -159,27 +162,33 @@ export const Counter = () => {
   };
 };
 
-export const Style = `
+export const Style = /* CSS */ `
     .counter {
-        background: #f8f9fa; /* Light background similar to Bootstrap forms */
-        color: #343a40; /* Default Bootstrap text color */
+        background: #f8f9fa; /* Light background */
+        color: #343a40; /* Default text color */
         border: 1px solid #dee2e6; /* Light grey border */
-        border-radius: 0.25rem; /* Bootstrap's rounded corners */
+        border-radius: 0.25rem; /* Rounded corners */
         padding: 1rem; /* Consistent padding all around */
         margin-bottom: 0.5rem; /* Margin to separate from other elements */
-        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* Bootstrap-like shadow */
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* Soft shadow */
         display: grid;
         gap: 8px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+    }
+
+    .counter:hover {
+        transform: translateY(-0.25rem); /* Slight lift on hover */
+        box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1); /* Enhanced shadow on hover */
     }
 
     .counter-display,
     .computed-value,
-    .loop-item { /* Added loop item class for loop styling */
+    .loop-item {
         margin-bottom: 0.5rem; /* Space between elements */
     }
 
     .btn {
-        background-color: #007bff; /* Bootstrap primary button color */
+        background-color: #42b983; /* Vue.js green */
         width: 100%;
         color: white;
         border: none;
@@ -192,18 +201,17 @@ export const Style = `
     }
 
     .btn:hover {
-        background-color: #0056b3; /* Darker blue on hover */
+        background-color: #2e8b57; /* Darker green on hover */
     }
 
     .btn.special {
-        background-color: #28a745; /* Bootstrap success color for special button */
+        background-color: #5cb85c; /* Success green for special button */
     }
 
     .btn.special:hover {
-        background-color: #1e7e34; /* Darker green on hover */
+        background-color: #4cae4c; /* Darker green on hover */
     }
 
-    /* Styling for loop items */
     .loop-item {
         display: flex;
         align-items: center;
@@ -215,4 +223,4 @@ export const Style = `
         margin-bottom: 0.25rem; /* Space between each loop item */
     }
 `;
-`````
+```````

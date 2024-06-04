@@ -14,7 +14,7 @@ export const Template = /* HTML */ `
     </div>
 
     <Example></Example>
-
+    
     <Counter
       :new-counter="cardTitle.value"
       :new-id="cardTitle.value"

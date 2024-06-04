@@ -29,7 +29,7 @@ export const TestingReactivity = () => {
     })
 
     watch(() => $props.reactiveProp.value, (newValue, oldValue) => {
-        console.log(newValue, oldValue)
+        // console.log(newValue, oldValue)
     })
 
     return { test, cardTitle }

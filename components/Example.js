@@ -1,3 +1,11 @@
+export const Props = {
+  test: {
+    type: 'string',
+    default: '',
+    required: false
+  }
+}
+
 export const Template =/* HTML */ `
   <div class="example-container">
     <p class="example-property">{{ example['number-0'] }}</p>
@@ -22,6 +30,10 @@ export const Example = () => {
     "number-6": Math.trunc(Math.random() * 90 + 10),
     "number-7": Math.trunc(Math.random() * 90 + 10),
   });
+
+  watch(() => $props.test.value, (newValue, oldValue) => {
+    console.log(newValue, oldValue)
+  })
 
   setInterval(() => {
     example["number-0"] = Math.trunc(Math.random() * 90 + 10);
