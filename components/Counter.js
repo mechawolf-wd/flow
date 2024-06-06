@@ -14,8 +14,7 @@ export const Emits = ["new-emit-attribute"];
 export const Template = /* HTML */ `
   <div class="counter">
     <div class="counter-display">
-      Counter: {{ counter.value }} + {{ exampleNumber.value }} = {{
-      computedValue.value }}
+      Counter: {{ counter.value }} + {{ exampleNumber.value }} = {{ computedValue.value }}
     </div>
 
     <div style="display: flex; justify-content: space-between; gap: 24px;">
@@ -33,26 +32,13 @@ export const Template = /* HTML */ `
         <p>{{ human.name }}</p>
         <p>{{ human.age }}</p>
         <p>{{ human.status }}</p>
-        <input type="checkbox" :checked="cardTitle.value.length > 3" />
+        <input type="checkbox" :checked="human.age > 2" />
+        <input :model="human.age" />
       </div>
-    </Loop>
 
-    <Loop :for="human of humans">
-      <div class="loop-item">
-        <p>{{ human.name }}</p>
-        <p>{{ human.age }}</p>
-        <p>{{ human.status }}</p>
-        <input type="checkbox" :checked="cardTitle.value.length > 3" />
-      </div>
-    </Loop>
-
-    <Loop :for="type in types">
-      <div class="loop-item">
-        <input :model="type.value" />
-        {{ type.value }}
-        <p :if="type.value.length >= 2">More length!</p>
-        <p :if="type.value.length < 2">Not that much...</p>
-      </div>
+      <Loop :for="type of types">
+        <span>{{ type.value }}</span>
+      </Loop>
     </Loop>
   </div>
 `;
@@ -65,11 +51,11 @@ export const Counter = () => {
         return counter.value + exampleNumber.value;
     });
 
-    watch(computedValue, (n, p) => {
+    watch([() => computedValue.value], (n, p) => {
         // console.log(n, p);
     });
 
-    const { cardTitle } = $stores.cardStore;
+    const { cardTitle, cards } = $stores.cardStore;
 
     const incrementCounter = () => {
         counter.value += 1;
@@ -96,13 +82,26 @@ export const Counter = () => {
             age: 25,
             status: "😊",
         },
+        {
+            name: "Anna",
+            age: 12,
+            status: "😊",
+        },
     ]);
 
     const types = ref(["text", "date", "color"]);
 
     setTimeout(() => {
-        types.push("number");
+        // humans.push({
+        //     name: "Last",
+        //     age: 99,
+        //     status: "😊",
+        // });
     }, 2000);
+
+    setTimeout(() => {
+        // humans.reverse();
+    }, 3000);
 
     return {
         counter,
@@ -112,6 +111,7 @@ export const Counter = () => {
         humans,
         types,
         demoText,
+        cards,
 
         incrementCounter,
         decrementCounter,

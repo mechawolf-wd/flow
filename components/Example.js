@@ -13,9 +13,6 @@ export const Template =/* HTML */ `
     <p class="example-property">{{ example['number-2'] }}</p>
     <p class="example-property">{{ example['number-3'] }}</p>
     <p class="example-property">{{ example['number-4'] }}</p>
-    <p class="example-property">{{ example['number-5'] }}</p>
-    <p class="example-property">{{ example['number-6'] }}</p>
-    <p class="example-property">{{ example['number-7'] }}</p>
   </div>
 `;
 
@@ -32,7 +29,7 @@ export const Example = () => {
   });
 
   watch(() => $props.test.value, (newValue, oldValue) => {
-    console.log(newValue, oldValue)
+    // console.log(newValue, oldValue)
   })
 
   setInterval(() => {
