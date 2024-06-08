@@ -14,7 +14,8 @@ export const Emits = ["new-emit-attribute"];
 export const Template = /* HTML */ `
   <div class="counter">
     <div class="counter-display">
-      Counter: {{ counter.value }} + {{ exampleNumber.value }} = {{ computedValue.value }}
+      Counter: {{ counter.value }} + {{ exampleNumber.value }} = {{
+      computedValue.value }}
     </div>
 
     <div style="display: flex; justify-content: space-between; gap: 24px;">
@@ -36,8 +37,9 @@ export const Template = /* HTML */ `
         <input :model="human.age" />
       </div>
 
-      <Loop :for="type of types">
-        <span>{{ type.value }}</span>
+      <Loop :for="cat of human.cats">
+        <span>{{ cat.value }}</span>
+        <input :model="cat.value" />
       </Loop>
     </Loop>
   </div>
@@ -76,32 +78,41 @@ export const Counter = () => {
             name: "Bart",
             age: 38,
             status: "😊",
+            cats: []
         },
         {
             name: "Paul",
             age: 25,
             status: "😊",
+            card: () => cardTitle.value,
+            cats: ['Furr', "Puff", "Catto"]
         },
         {
             name: "Anna",
             age: 12,
             status: "😊",
+            cats: ['Furr', "Puff", "Catto"]
         },
     ]);
 
     const types = ref(["text", "date", "color"]);
 
     setTimeout(() => {
-        // humans.push({
-        //     name: "Last",
-        //     age: 99,
-        //     status: "😊",
-        // });
-    }, 2000);
+        humans.push({
+            name: "Last",
+            age: 99,
+            status: "😊",
+            cats: ['Furr', "Puff", "Catto"]
+        });
+    }, 500);
 
     setTimeout(() => {
-        // humans.reverse();
-    }, 3000);
+        // humans.sort((a, b) => b.age - a.age);
+    }, 1000);
+
+    setTimeout(() => {
+        humans[0].cats.pop()
+    }, 2500);
 
     return {
         counter,
