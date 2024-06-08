@@ -30,17 +30,12 @@ export const Template = /* HTML */ `
 
     <Loop :for="human of humans">
       <div class="loop-item">
-        <p>{{ human.name }}</p>
+        <p :class="{ colorRed: () => cardTitle.value.length > 3 }">{{ human.name }}</p>
         <p>{{ human.age }}</p>
         <p>{{ human.status }}</p>
         <input type="checkbox" :checked="human.age > 2" />
         <input :model="human.age" />
       </div>
-
-      <Loop :for="cat of human.cats">
-        <span>{{ cat.value }}</span>
-        <input :model="cat.value" />
-      </Loop>
     </Loop>
   </div>
 `;
@@ -189,5 +184,9 @@ export const Style = /* CSS */ `
         background: #ffffff; /* White background */
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
         margin-bottom: 0.25rem; /* Space between each loop item */
+    }
+
+    .colorRed {
+        color: orangered;
     }
 `;

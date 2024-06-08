@@ -23,12 +23,9 @@ Vind-JS is a minimalist JavaScript framework tailored for building interactive u
 2. Implement the `once` directive to bind events or effects that should only execute once.
 3. Cache the values in loop's expressions.
 4. Implement a handling mechanism for components' names casing. eg. CurrentDate -> `<current-date>`... (x) `<currentdate>`
-5. Investigate why would `header` component be rendered twice (due to naming conflict).
 
 ## Second Line of TODOs
 
-1. Explore how to handle nested loops effectively.
-2. Enhance the system for reactive array updates to ensure minimal DOM manipulation.
 3. Implement `ref=""` directive for referencing DOM elements.
 4. Decide whether to keep `<loop></loop>` tags inside production HTML.
 5. Cache values inside observers (computed properties) to optimize performance.
@@ -58,6 +55,7 @@ Vind-JS is a minimalist JavaScript framework tailored for building interactive u
 13. No-import components that are automatically imported and registered.
 14. `<Loop>` component that loops through arrays.
 15. Deep reactive objects that rerender influenced DOM nodes and attributes.
+16. Nested Loops that can reference the parent loop's variables.
 
 ## Example Component: Counter
 
