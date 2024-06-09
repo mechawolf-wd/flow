@@ -34,7 +34,7 @@ export const Template = /* HTML */ `
     <input
       class="card-input"
       placeholder="Enter title..."
-      :model="cardTitle"
+      :model="cardTitle.value"
       type="text"
     />
   </div>

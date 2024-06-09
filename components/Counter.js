@@ -13,7 +13,7 @@ export const Emits = ["new-emit-attribute"];
 
 export const Template = /* HTML */ `
   <div class="counter">
-    <div class="counter-display">
+    <div class="counter-display" :class="{ colorRed: () => counter.value % 2 === 0 }">
       Counter: {{ counter.value }} + {{ exampleNumber.value }} = {{
       computedValue.value }}
     </div>
@@ -36,6 +36,10 @@ export const Template = /* HTML */ `
         <input type="checkbox" :checked="human.age > 2" />
         <input :model="human.age" />
       </div>
+
+      <Loop :for="type in types" style="display: flex; gap: 8px;">
+        {{ type.value }}
+      </Loop>
     </Loop>
   </div>
 `;
