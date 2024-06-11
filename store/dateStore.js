@@ -1,4 +1,4 @@
-export const dateStore: Store = ({ ref }) => {
+export const dateStore = ({ ref }) => {
     const currentDate = ref(new Date())
 
     setInterval(() => {

@@ -1,4 +1,4 @@
-export const cardStore: Store = ({ ref, computed, watch }) => {
+export const cardStore = ({ ref, computed, watch }) => {
     const cardTitle = ref("Bound Card title.");
     const cardDescription = ref("Card description.");
     const cards = ref([]);
