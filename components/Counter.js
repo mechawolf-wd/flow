@@ -1,10 +1,13 @@
 export const Props = {
     newId: {
-        type: "string",
+        type: String,
         default: "",
+        validator: (newId) => {
+            return newId.length < 2;
+        },
     },
     newCounter: {
-        type: "string",
+        type: String,
         default: "Default value of newCounter.",
     },
 };
@@ -13,34 +16,30 @@ export const Emits = ["new-emit-attribute"];
 
 export const Template = /* HTML */ `
   <div class="counter">
-    <div class="counter-display" :class="{ colorRed: () => counter.value % 2 === 0 }">
-      Counter: {{ counter.value }} + {{ exampleNumber.value }} = {{
-      computedValue.value }}
+    <div class="counter-display" :class="dynamicClasses">
+      Counter: {{ counter.value }} + {{ exampleNumber.value }} = {{ computedValue.value }}
     </div>
 
     <div style="display: flex; justify-content: space-between; gap: 24px;">
       <button class="btn" @click="incrementCounter">Increment ++</button>
       <button class="btn" @click="decrementCounter">Decrement --</button>
-      <button class="btn special" @click="$emit('change-path')">
+      <button class="btn special" @click="$emit('change-path')" :style="dynamicStyling">
         {{ demoText }}
       </button>
     </div>
 
     <Drawer name="message"></Drawer>
 
-    <Loop :for="human of humans">
+    <div :for="(human, index) of humans">
       <div class="loop-item">
-        <p :class="{ colorRed: () => cardTitle.value.length > 3 }">{{ human.name }}</p>
+        <p :class="dynamicClasses">{{ human.name }}</p>
         <p>{{ human.age }}</p>
         <p>{{ human.status }}</p>
         <input type="checkbox" :checked="human.age > 2" />
         <input :model="human.age" />
+        {{ index.value }}
       </div>
-
-      <Loop :for="type in types" style="display: flex; gap: 8px;">
-        {{ type.value }}
-      </Loop>
-    </Loop>
+    </div>
   </div>
 `;
 
@@ -55,6 +54,15 @@ export const Counter = () => {
     watch([() => computedValue.value], (n, p) => {
         // console.log(n, p);
     });
+
+    const dynamicClasses = {
+        "color-vind": () => counter.value % 2 === 0,
+        "font-bold": () => counter.value % 2 !== 0,
+    };
+
+    const dynamicStyling = {
+        filter: () => (counter.value % 2 === 0 ? "blur(5px)" : ""),
+    };
 
     const { cardTitle, cards } = $stores.cardStore;
 
@@ -77,41 +85,37 @@ export const Counter = () => {
             name: "Bart",
             age: 38,
             status: "😊",
-            cats: []
+            cats: [],
         },
         {
             name: "Paul",
             age: 25,
             status: "😊",
             card: () => cardTitle.value,
-            cats: ['Furr', "Puff", "Catto"]
+            cats: ["Furr", "Puff", "Catto"],
         },
         {
             name: "Anna",
             age: 12,
             status: "😊",
-            cats: ['Furr', "Puff", "Catto"]
+            cats: ["Furr", "Puff", "Catto"],
         },
     ]);
 
     const types = ref(["text", "date", "color"]);
 
     setTimeout(() => {
-        humans.push({
+        humans.unshift({
             name: "Last",
             age: 99,
             status: "😊",
-            cats: ['Furr', "Puff", "Catto"]
+            cats: ["Furr", "Puff", "Catto"],
         });
     }, 500);
 
     setTimeout(() => {
-        // humans.sort((a, b) => b.age - a.age);
-    }, 1000);
-
-    setTimeout(() => {
-        humans[0].cats.pop()
-    }, 2500);
+        humans.value = humans
+    }, 2000);
 
     return {
         counter,
@@ -122,6 +126,8 @@ export const Counter = () => {
         types,
         demoText,
         cards,
+        dynamicClasses,
+        dynamicStyling,
 
         incrementCounter,
         decrementCounter,
@@ -190,7 +196,11 @@ export const Style = /* CSS */ `
         margin-bottom: 0.25rem; /* Space between each loop item */
     }
 
-    .colorRed {
-        color: orangered;
+    .color-vind {
+        color: #42b983;
+    }
+
+    .font-bold {
+        font-weight: bold;
     }
 `;

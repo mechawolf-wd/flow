@@ -1,7 +1,8 @@
 export const Props = {
     reactiveProp: {
-        type: 'string',
-        default: 'default asdfohasf'
+        type: String,
+        default: 'default asdfohasf',
+        required: true
     }
 }
 

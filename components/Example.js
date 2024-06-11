@@ -1,6 +1,6 @@
 export const Props = {
   test: {
-    type: 'string',
+    type: String,
     default: '',
     required: false
   }

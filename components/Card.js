@@ -1,6 +1,6 @@
 export const Props = {
   cardTitleBound: {
-    type: 'string',
+    type: String,
     default: "",
     required: false
   },

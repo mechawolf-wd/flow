@@ -21,14 +21,12 @@ Vind-JS is a minimalist JavaScript framework tailored for building interactive u
 
 1. Make props readonly!
 2. Implement the `once` directive to bind events or effects that should only execute once.
-3. Cache the values in loop's expressions.
-4. Implement a handling mechanism for components' names casing. eg. CurrentDate -> `<current-date>`... (x) `<currentdate>`
+3. Implement a handling mechanism for components' names casing. eg. CurrentDate -> `<current-date>`... (x) `<currentdate>`
 
 ## Second Line of TODOs
 
 3. Implement `ref=""` directive for referencing DOM elements.
-4. Decide whether to keep `<loop></loop>` tags inside production HTML.
-5. Cache values inside observers (computed properties) to optimize performance.
+4. Cache values inside observers (computed properties) to optimize performance.
 
 ## Third Line of TODOs
 
@@ -48,34 +46,39 @@ Vind-JS is a minimalist JavaScript framework tailored for building interactive u
 6. Event handling with the `@event` directive.
 7. Data binding possible with prepending `:` to the attribute name.
 8. `watch()` method for watching reactive variables.
-9. Looping through arrays with the `<Loop></Loop>` component.
+9. Looping through arrays with the `:for` directive.
 10. Reactive props that are defined with the `props` array.
 11. `onMounted` and `onBeforeMount` lifecycle hooks.
-12. `<Insert>` component for putting HTML content into `<Drawer>` tags, aka slots and templates.
+12. `<Insert>` component for putting HTML content into `<Drawer>` tags, aka <slot>s and <template>s.
 13. No-import components that are automatically imported and registered.
-14. `<Loop>` component that loops through arrays.
-15. Deep reactive objects that rerender influenced DOM nodes and attributes.
-16. Nested Loops that can reference the parent loop's variables.
+14. Deep reactive objects that rerender influenced DOM nodes and attributes.
+15. Nested Loops that can reference the parent loop's variables.
 
 ## Example Component: Counter
 
-```````javascript
+`````javascript
 export const Props = {
   newId: {
-    type: "string",
+    type: String,
     default: "",
+    validator: (newId) => {
+      return newId.length < 2;
+    },
   },
   newCounter: {
-    type: "string",
+    type: String,
     default: "Default value of newCounter.",
   },
 };
 
 export const Emits = ["new-emit-attribute"];
 
-export const Template = ```html`
+export const Template =  ```html`
   <div class="counter">
-    <div class="counter-display">
+    <div
+      class="counter-display"
+      :class="{ colorRed: () => counter.value % 2 === 0 }"
+    >
       Counter: {{ counter.value }} + {{ exampleNumber.value }} = {{
       computedValue.value }}
     </div>
@@ -90,34 +93,37 @@ export const Template = ```html`
 
     <Drawer name="message"></Drawer>
 
-    <Loop :for="human of humans.value">
+    <div :for="human of humans">
       <div class="loop-item">
-        <p>{{ human.name }}</p>
+        <p :class="{ colorRed: () => cardTitle.value.length > 3 }">
+          {{ human.name }}
+        </p>
         <p>{{ human.age }}</p>
         <p>{{ human.status }}</p>
-        <input type="checkbox" :checked="cardTitle.value.length > 3" />
+        <input type="checkbox" :checked="human.age > 2" />
+        <input :model="human.age" />
       </div>
-    </Loop>
+
+      <div :for="type in human.cats" style="display: flex; gap: 8px;">
+        {{ type.value }}
+      </div>
+    </div>
   </div>
-``````;
+````;
 
 export const Counter = () => {
   const counter = ref(1);
   const exampleNumber = ref(100);
 
-  setTimeout(() => {
-    $emit("change-path");
-  }, 2000);
-
   const computedValue = computed(() => {
     return counter.value + exampleNumber.value;
   });
 
-  watch(computedValue, (n, p) => {
-    // console.log(n, p);
+  watch([() => computedValue.value], (n, p) => {
+    console.log(n, p);
   });
 
-  const { cardTitle } = $stores.cardStore;
+  const { cardTitle, cards } = $stores.cardStore;
 
   const incrementCounter = () => {
     counter.value += 1;
@@ -136,15 +142,43 @@ export const Counter = () => {
   const humans = ref([
     {
       name: "Bart",
-      age: 20,
+      age: 38,
       status: "😊",
+      cats: [],
     },
     {
       name: "Paul",
       age: 25,
       status: "😊",
+      card: () => cardTitle.value,
+      cats: ["Furr", "Puff", "Catto"],
+    },
+    {
+      name: "Anna",
+      age: 12,
+      status: "😊",
+      cats: ["Furr", "Puff", "Catto"],
     },
   ]);
+
+  const types = ref(["text", "date", "color"]);
+
+  setTimeout(() => {
+    humans.push({
+      name: "Last",
+      age: 99,
+      status: "😊",
+      cats: ["Furr", "Puff", "Catto"],
+    });
+  }, 500);
+
+  setTimeout(() => {
+    humans.sort((a, b) => b.age - a.age);
+  }, 1000);
+
+  setTimeout(() => {
+    humans[0].cats.pop();
+  }, 2500);
 
   return {
     counter,
@@ -152,7 +186,9 @@ export const Counter = () => {
     computedValue,
     cardTitle,
     humans,
+    types,
     demoText,
+    cards,
 
     incrementCounter,
     decrementCounter,
@@ -220,5 +256,9 @@ export const Style = /* CSS */ `
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
         margin-bottom: 0.25rem; /* Space between each loop item */
     }
+
+    .colorRed {
+        color: orangered;
+    }
 `;
-```````
+`````
