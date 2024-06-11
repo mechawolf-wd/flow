@@ -1,6 +1,5 @@
 "use strict";
-
-import { Vind } from "./node_modules/@vind/index.js";
+import { Vind } from "./node_modules/@vind/index.js.js";
 import { cardStore } from "./store/cardStore.js";
 import { dateStore } from "./store/dateStore.js";
 import * as App from "./App.js";

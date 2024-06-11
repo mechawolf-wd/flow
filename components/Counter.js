@@ -51,7 +51,7 @@ export const Counter = () => {
         return counter.value + exampleNumber.value;
     });
 
-    watch([() => computedValue.value], (n, p) => {
+    watch(() => computedValue.value, (newValue, previousValue) => {
         // console.log(n, p);
     });
 
@@ -112,10 +112,6 @@ export const Counter = () => {
             cats: ["Furr", "Puff", "Catto"],
         });
     }, 500);
-
-    setTimeout(() => {
-        humans.value = humans
-    }, 2000);
 
     return {
         counter,
