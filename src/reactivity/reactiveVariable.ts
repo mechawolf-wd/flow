@@ -403,7 +403,7 @@ export const reactiveArray = (
     return reactiveArrayProxy;
 };
 
-export const reactiveVariable = (value, configuration: { [key: string]: any } = {}) => {
+export const reactiveVariable = (value: any, configuration: { [key: string]: any } = {}) => {
     configuration.isReactiveVariable = true;
 
     let type = getReactiveVariableType(configuration);

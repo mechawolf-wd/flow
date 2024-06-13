@@ -5,9 +5,9 @@ import {
     translateBindingAttribute,
     translateEventAttribute,
 } from "../../../utils/getTranslatedAttributeNames.ts";
-import { bindIfDirective } from "./if.js";
-import { bindClassDirective } from "./class.js";
-import { bindStyleDirective } from "./style.js";
+import { bindIfDirective } from "./if";
+import { bindClassDirective } from "./class";
+import { bindStyleDirective } from "./style";
 import { templateCompiler } from "../templateCompiler.js";
 import {
     STANDARD_INPUT_TYPES,

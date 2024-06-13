@@ -29,6 +29,7 @@ export const TestingReactivity = () => {
         }
     })
 
+    // @ts-ignore
     watch(() => $props.reactiveProp.value, (newValue: string, oldValue: string) => {
         // console.log(newValue, oldValue)
     })

@@ -2,8 +2,9 @@ export const Props = {
     newId: {
         type: String,
         default: "",
+        // @ts-ignore
         validator: (newId: string) => {
-            return newId.length < 2;
+            // return newId.length < 2;
         },
     },
     newCounter: {
@@ -66,6 +67,7 @@ export const Counter = () => {
 
     watch(
         () => computedValue.value,
+        // @ts-ignore
         (newValue: number, previousValue: number) => {
             // console.log(n, p);
         }

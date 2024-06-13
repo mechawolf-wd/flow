@@ -2,9 +2,9 @@ import { evaluateJSExpression } from "../../utils/evaluateJSExpression.js";
 import { camelToKebabCase } from "../../utils/camelToKebabCase.ts";
 import { replaceInterpolationMarkers } from "../../utils/formatTemplate.ts";
 import { bindForDirective } from "./../compiler/directives/for.js";
-import { bindIfDirective } from "./../compiler/directives/if.js";
-import { bindClassDirective } from "./../compiler/directives/class.js";
-import { bindStyleDirective } from "./../compiler/directives/style.js";
+import { bindIfDirective } from "./../compiler/directives/if";
+import { bindClassDirective } from "./../compiler/directives/class";
+import { bindStyleDirective } from "./../compiler/directives/style";
 import { mountStyling } from "../../src/compiler/mountStyling";
 import {
     getTranslatedAttributeNames,
@@ -24,6 +24,7 @@ import {
     STANDARD_INPUT_TYPES,
     INPUT_TYPES_WITH_CHECKED_ATTRIBUTE,
 } from "../../configuration/configuration.ts";
+import DOMPurify from "dompurify";
 
 const compilerMacros = {
     ref: (value) => {
@@ -234,8 +235,19 @@ export function compileComponent(
     lifecycleCallbacks.onBeforeMount?.();
 
     // * After running this instruction component gets its HTML content set.
-    componentParentElement.innerHTML =
-        replaceInterpolationMarkers(componentTemplate);
+
+    // componentParentElement.innerHTML = DOMPurify.sanitize(
+    //     replaceInterpolationMarkers(componentTemplate),
+    //     {
+    //         ADD_TAGS: $VindEngine.ALLOWED_HTML_TAGS,
+    //         ALLOWED_ATTR: ['*'],
+    //         CUSTOM_ELEMENT_HANDLING: {
+    //             tagNameCheck: false,
+    //         },
+    //     }
+    // );
+
+    componentParentElement.innerHTML = replaceInterpolationMarkers(componentTemplate)
 
     const componentStyle =
         $VindEngine.styleByComponent[upperCaseComponentName] || "";

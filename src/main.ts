@@ -78,6 +78,9 @@ window.$VindEngine = (() => {
 
     const reactiveArraysDOMElements = {};
 
+    // Compiler
+    const ALLOWED_HTML_TAGS = ["Insert", "Drawer", "vind-expression"];
+
     // Effects
     const queueReactiveEffect = (
         // @ts-ignore
@@ -150,12 +153,14 @@ window.$VindEngine = (() => {
     // @ts-ignore
     const defineComponentModule = (componentModule, customComponentName = "") => {
         // TODO: This 'find' instruction is not checking whether the found 'function' is an actual component.
-        let componentFunction = Object.values(componentModule).find(
+        let componentFunction: Function | unknown = Object.values(componentModule).find(
             (value) => typeof value === "function"
         );
 
         // @ts-ignore
         const upperCaseComponentName = (customComponentName || componentFunction.name).toUpperCase();
+
+        ALLOWED_HTML_TAGS.push((componentFunction as Function).name)
 
         $VindEngine.templateByComponent[upperCaseComponentName] =
             componentModule["Template"] || ``;
@@ -216,6 +221,8 @@ window.$VindEngine = (() => {
 
         dependencyExtractorRunning,
         extractedDependencies,
+
+        ALLOWED_HTML_TAGS
     };
 })();
 
@@ -229,5 +236,5 @@ const routerStore = ({ ref }) => {
     };
 };
 
-const routerStoreGenerationFunction = generateStore("routerStore", routerStore);
+const routerStoreGenerationFunction = generateStore("routerStore", routerStore as any);
 $VindEngine.storeGenerationQueue.push(routerStoreGenerationFunction);

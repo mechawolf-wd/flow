@@ -28,6 +28,7 @@ export const Example = () => {
     "number-7": Math.trunc(Math.random() * 90 + 10),
   });
 
+  // @ts-ignore
   watch(() => $props.test.value, (newValue: string, previousValue: string) => {
     // console.log(newValue, oldValue)
   })
