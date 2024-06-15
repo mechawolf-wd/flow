@@ -119,12 +119,24 @@ export function compileComponent(
     const componentInternalContext = {
         ...compilerMacros,
         onMounted: (callback) => {
+            if (!callback || typeof callback !== 'function') {
+                return;
+            }
+
             lifecycleCallbacks.onMounted = callback;
         },
         onBeforeMount: (callback) => {
+            if (!callback || typeof callback !== 'function') {
+                return;
+            }
+
             lifecycleCallbacks.onBeforeMount = callback;
         },
         $emit: (eventName, payload, eventInitDict = { bubbles: true }) => {
+            if (!eventName || typeof eventName !== 'string') {
+                return;
+            }
+
             eventInitDict.detail = payload;
 
             const customEvent = new CustomEvent(eventName, eventInitDict);
