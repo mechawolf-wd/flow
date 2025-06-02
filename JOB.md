@@ -22,23 +22,24 @@ podzial pracy:
 
 ### Rolex:
 
-1. Opisanie utilsow
-2. Opis dlaczego typescript i dlaczego vite
-3. Opis pliku package.json I package-lock.json (bardzo krotki opis z racji ze to pliki konfiguracyjne)
-4. Krotki opis .gitignore (krotki opis co ignorujemy)
+1. Opisanie utilsow okolo (15 - 20 stron bym tutaj zakladal)
+2. Opis dlaczego typescript i dlaczego vite (1 - 2 strony)
+3. Opis pliku package.json I package-lock.json (bardzo krotki opis z racji ze to pliki konfiguracyjne) (1 strona)
+4. Krotki opis .gitignore (krotki opis co ignorujemy) (1 strona)
 5. Krotki opis pliku constants.ts (sa to zmienne potrzebne pozniej w konfiguracji roznych czesci compilatora i dyrektyw)
-6. Opis mountStyling.ts (prosty opis)
-7. Opis do czego służy plik globals.d.ts\ (definicje typow w js - z racji ze nie ma tam typow w komponentach tylko precompiler daje dostep do ref, computed etc)
-8. Opis dyrektywy if.ts
-9. Opis dyrektywy style.ts
-10. Opis dyrektywy class.ts
-11. Opis frameworka i dlaczego jest zajebisty bo nie ma bibliotek oprócz typescripta i bundlera
-12. Podobieństwo do vue na podstawie przykładu z readme
+   (1 - 2 strony)
+6. Opis mountStyling.ts (prosty opis) (0.5 strony)
+7. Opis do czego służy plik globals.d.ts\ (definicje typow w js - z racji ze nie ma tam typow w komponentach tylko precompiler daje dostep do ref, computed etc) (1 - 2 strony)
+8. Opis dyrektywy if.ts (1 strona)
+9. Opis dyrektywy style.ts (1 strona)
+10. Opis dyrektywy class.ts (1 - 2 strony)
+11. Opis frameworka i dlaczego jest zajebisty bo nie ma bibliotek oprócz typescripta i bundlera (1 - 2 strony)
+12. Podobieństwo do vue na podstawie przykładu z readme (1 - 2 strony)
 
 ### Wolf:
 
-1. Opis main.ts
-2. Opis templateCompiler.ts
-3. Opis reactiveVariable.ts
-4. Opis generateStore.ts
+1. Opis main.ts (10+ stron)
+2. Opis templateCompiler.ts (15+ stron)
+3. Opis reactiveVariable.ts (15+ stron)
+4. Opis generateStore.ts (10+ stron)
 5.
