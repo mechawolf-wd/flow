@@ -2,10 +2,10 @@ declare var $VindEngine: {
     componentModules,
     defineComponentModule,
 
-    templateByComponent,
+    templateContentByComponent,
     propertiesByComponent,
     eventsByComponent,
-    styleByComponent,
+    styleContentByComponent,
     componentsWithStyleMounted,
 
     reactiveVariables,
@@ -26,8 +26,6 @@ declare var $VindEngine: {
 
     dependencyExtractorRunning,
     extractedDependencies,
-
-    ALLOWED_HTML_TAGS
 };
 
 declare var $stores: { [key: string]: { [key: string]: any } };

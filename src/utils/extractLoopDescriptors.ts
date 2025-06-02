@@ -10,6 +10,7 @@ export function extractLoopDescriptors(expression: string) {
     if (!expression) {
         return outputObject;
     }
+
     const match = expression.match(loopRE);
 
     const variablesExpression = match?.[1].trim();
@@ -32,3 +33,6 @@ export function extractLoopDescriptors(expression: string) {
 
     return outputObject;
 }
+
+// sluzy do wyciagniecia nazwa opisujacych co jest arrayem, co elementem a co indexem
+// z wartosci atrybutu :for

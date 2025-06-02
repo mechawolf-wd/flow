@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
     reactiveVariable,
     reactiveArray,
@@ -6,9 +7,12 @@ import {
     REACTIVE_VARIABLE_REF_CONFIG,
     REACTIVE_VARIABLE_COMPUTED_CONFIG,
     REACTIVE_VARIABLE_ARRAY_CONFIG,
-} from "../configuration/configuration";
+} from "../configuration/constants";
 
-export function generateStore(name: string, storeFunction: (storeObject: object) => void) {
+export function generateStore(
+    name: string,
+    storeFunction: (storeObject: object) => void
+) {
     return () => {
         const store = storeFunction({
             ref: (value: any) => {
@@ -32,7 +36,11 @@ export function generateStore(name: string, storeFunction: (storeObject: object)
                     structuredClone(REACTIVE_VARIABLE_COMPUTED_CONFIG)
                 );
             },
-            watch: (source: any, callback: (newValue: any, previousValue: any) => void, watchConfiguration: { [key: string]: any } = {}) => {
+            watch: (
+                source: any,
+                callback: (newValue: any, previousValue: any) => void,
+                watchConfiguration: { [key: string]: any } = {}
+            ) => {
                 const isSourceAFunction = typeof source === "function";
                 const isSourceAnArray = Array.isArray(source);
 
@@ -50,9 +58,7 @@ export function generateStore(name: string, storeFunction: (storeObject: object)
 
                         if (extractedDependencies.length > 0) {
                             extractedDependencies.forEach((extractedDependency) => {
-                                $VindEngine.watchCallbacks[extractedDependency as any].push(
-                                    callback
-                                );
+                                $VindEngine.watchCallbacks[extractedDependency].push(callback);
                             });
                         }
 

@@ -1,73 +1,39 @@
+// @ts-nocheck
 import { isPrimitive } from "../utils/isPrimitive";
 import {
     REACTIVE_VARIABLE_REF_CONFIG,
     REACTIVE_VARIABLE_ARRAY_CONFIG,
-} from "../configuration/configuration";
-
-export function getRandomNumberString(digits: number) {
-    if (window.crypto && window.crypto.getRandomValues) {
-        const array = new Uint8Array(digits);
-        window.crypto.getRandomValues(array);
-        return Array.from(array, (num) => (num % 10).toString()).join("");
-    } else {
-        const min = Math.pow(10, digits - 1);
-        const number = Math.trunc(Math.random() * 9 * min) + min;
-        return number.toString();
-    }
-}
-
-export function generateNewReference(type: string) {
-    const part1 = getRandomNumberString(8);
-
-    return `VIND-RV-${type}-${part1}`;
-}
+} from "../configuration/constants";
+import { generateNewReference } from "../utils/generateNewReference";
+import { getReactiveVariableType } from "../utils/getReactiveVariableType";
+import { isValueAnActualObject } from "../utils/isValueAnActualObject";
+import { ARRAY_MUTATING_METHODS } from "../configuration/constants";
 
 const runComputedDependencesExtractor = (
     computedCallback: () => void,
-    variableReference: string
+    targetReactiveVariableReference: string
 ) => {
     $VindEngine.computedDependencyExtractorRunning = true;
-    $VindEngine.currentReactiveVariableReference = variableReference;
+    $VindEngine.currentReactiveVariableReference =
+        targetReactiveVariableReference;
 
     computedCallback();
 
     $VindEngine.computedDependencyExtractorRunning = false;
     $VindEngine.currentReactiveVariableReference = "";
+
     $VindEngine.extractedComputedDependencies.clear();
 };
 
-const getReactiveVariableType = (configuration: { [key: string]: any }) => {
-    let type = "";
-
-    if (configuration.isRef) {
-        type = "REF";
-    } else if (configuration.isComputed) {
-        type = "COMPUTED";
-    } else if (configuration.isProp) {
-        type = "PROP";
-    } else if (configuration.isReactiveArray) {
-        type = "REACTIVE-ARRAY";
-    } else {
-        type = "UNSPECIFIED";
+// Converts target value into a deeply reactive object if necessary.
+const getReactiveVariable = (value, configuration) => {
+    // If the value is not in a form of "{}" object the value will be returned
+    // without any further recursive nesting of reactive values.
+    if (!isValueAnActualObject(value)) {
+        return value;
     }
 
-    return type;
-};
-
-const isValueAnActualObject = (value: any) => {
-    return (
-        value !== null &&
-        Object.prototype.toString.call(value) === "[object Object]"
-    );
-};
-
-const getReactiveVariable = (
-    value: any,
-    configuration: { [key: string]: any }
-) => {
-    if (!isValueAnActualObject(value)) return value;
-
-    const outputReactiveObject: { [key: string]: any } = {};
+    const outputReactiveObject = {};
 
     for (const key in value) {
         const isValueAnArray = Array.isArray(value[key]);
@@ -89,62 +55,64 @@ const getReactiveVariable = (
             continue;
         }
 
+        // If the property's value is not in a form of "{}" object or an array there won't be
+        // any further action taken.
         outputReactiveObject[key] = value[key];
     }
 
     return outputReactiveObject;
 };
 
-const arrayMutatingMethods = [
-    "push",
-    "unshift",
-    "pop",
-    "shift",
-    "splice",
-    "sort",
-    "reverse",
-];
-
 interface ReactiveArrayDOMElement {
     HTMLCollection: HTMLCollection;
-    parentLoopElement: HTMLElement & { $VindNode: any };
-    mountNewLoopElement: (newArrayElement: any) => any;
+    parentLoopElement: HTMLElement & { $VindNode };
+    mountNewLoopElement: (newArrayElement) => any;
 }
 
 interface ReactiveArrayElement {
-    element: any;
+    element;
     index: { value: number };
 }
 
-type WatchSignal = (newValue: any, previousValue: any) => void
+type WatchSignal = (newValue, previousValue) => void;
 
-export const reactiveArray = (
-    value: any,
-    configuration: { [key: string]: any } = {}
-) => {
-    configuration.isReactiveVariable = true;
+const getCloneForChildrenOfReactiveArray = () => {
+    const clone = structuredClone(REACTIVE_VARIABLE_REF_CONFIG);
 
-    value.forEach((element: any, index: number) => {
+    clone.isChildOfReactiveArray = true;
+
+    return clone;
+};
+
+// Reactive arrays do work (somehow).
+// However, they need more debugging since there are plenty of edge cases
+// regarding reactivity of nested values.
+// Eg. pushing a new value into an array may become buggy and
+// won't respond to reactive updates.
+export const reactiveArray = (value, configuration = {}) => {
+    value.forEach((element, index: number) => {
         value[index] = reactiveVariable(
             element,
-            structuredClone(REACTIVE_VARIABLE_REF_CONFIG)
+            getCloneForChildrenOfReactiveArray()
         );
     });
 
-    let type = getReactiveVariableType(configuration);
+    let type = configuration.variableType || "UNSPECIFIED";
 
     const arrayReference = generateNewReference(type);
 
+    // The array proxy is strongly linked to its DOM representation.
+    // It is hard to keep track of both sources of truth at the same time.
     $VindEngine.reactiveArraysDOMElements[arrayReference] = [];
 
     const reactiveArrayProxy = new Proxy(value, {
         get(target, property, receiver) {
             const isPropertyAMutativeMethod =
                 typeof target[property] === "function" &&
-                arrayMutatingMethods.includes(String(property));
+                ARRAY_MUTATING_METHODS.includes(String(property));
 
             if (isPropertyAMutativeMethod) {
-                return (...functionArguments: any[]) => {
+                return (...functionArguments) => {
                     const hasReference =
                         $VindEngine.reactiveArraysDOMElements[arrayReference];
 
@@ -154,7 +122,7 @@ export const reactiveArray = (
                     ) {
                         const reactiveElement = reactiveVariable(
                             target,
-                            structuredClone(REACTIVE_VARIABLE_REF_CONFIG)
+                            getCloneForChildrenOfReactiveArray()
                         );
 
                         return Array.prototype[property].apply(
@@ -181,10 +149,7 @@ export const reactiveArray = (
                         const result = target.shift();
 
                         target.$VindReactiveArray.forEach(
-                            ({
-                                element,
-                                index,
-                            }: ReactiveArrayElement) => {
+                            ({ element, index }: ReactiveArrayElement) => {
                                 index.value = target.indexOf(element);
                             }
                         );
@@ -204,10 +169,7 @@ export const reactiveArray = (
                         const result = target.splice(...functionArguments);
 
                         target.$VindReactiveArray.forEach(
-                            ({
-                                element,
-                                index,
-                            }: ReactiveArrayElement) => {
+                            ({ element, index }: ReactiveArrayElement) => {
                                 index.value = target.indexOf(element);
                             }
                         );
@@ -274,19 +236,21 @@ export const reactiveArray = (
 
                         result = target.sort(sortingFunction);
 
-                        target.$VindReactiveArray.forEach(({ element, index }: ReactiveArrayElement) => {
-                            index.value = target.indexOf(element);
-                        });
+                        target.$VindReactiveArray.forEach(
+                            ({ element, index }: ReactiveArrayElement) => {
+                                index.value = target.indexOf(element);
+                            }
+                        );
 
                         $VindEngine.reactiveArraysDOMElements[arrayReference].forEach(
                             ({
                                 parentLoopElement,
                             }: {
-                                parentLoopElement: HTMLElement & { $VindNode: any };
+                                parentLoopElement: HTMLElement & { $VindNode };
                             }) => {
                                 const sortedOrderPlaceholder = document.createElement("div");
 
-                                target.forEach((originTargetElement: any) => {
+                                target.forEach((originTargetElement) => {
                                     sortedOrderPlaceholder.append(
                                         parentLoopElement.$VindNode.correspondingMap.get(
                                             originTargetElement
@@ -304,7 +268,7 @@ export const reactiveArray = (
                     if (property === "push") {
                         const reactiveElement = reactiveVariable(
                             functionArguments[0],
-                            structuredClone(REACTIVE_VARIABLE_REF_CONFIG)
+                            getCloneForChildrenOfReactiveArray()
                         );
 
                         const result = target.push(reactiveElement);
@@ -313,7 +277,7 @@ export const reactiveArray = (
                             element: reactiveElement,
                             index: reactiveVariable(
                                 target.length - 1,
-                                structuredClone(REACTIVE_VARIABLE_REF_CONFIG)
+                                getCloneForChildrenOfReactiveArray()
                             ),
                         });
 
@@ -334,25 +298,27 @@ export const reactiveArray = (
                     if (property === "unshift") {
                         const reactiveElement = reactiveVariable(
                             functionArguments[0],
-                            structuredClone(REACTIVE_VARIABLE_REF_CONFIG)
+                            getCloneForChildrenOfReactiveArray()
                         );
 
                         const result = target.unshift(reactiveElement);
 
                         target.$VindReactiveArray.unshift({
                             element: reactiveElement,
-                            index: reactiveVariable(
-                                0,
-                                structuredClone(REACTIVE_VARIABLE_REF_CONFIG)
-                            ),
+                            index: reactiveVariable(0, getCloneForChildrenOfReactiveArray()),
                         });
 
-                        target.$VindReactiveArray.forEach(({ element, index }: ReactiveArrayElement) => {
-                            index.value = target.indexOf(element);
-                        });
+                        target.$VindReactiveArray.forEach(
+                            ({ element, index }: ReactiveArrayElement) => {
+                                index.value = target.indexOf(element);
+                            }
+                        );
 
                         $VindEngine.reactiveArraysDOMElements[arrayReference].forEach(
-                            ({ parentLoopElement, mountNewLoopElement }: ReactiveArrayDOMElement) => {
+                            ({
+                                parentLoopElement,
+                                mountNewLoopElement,
+                            }: ReactiveArrayDOMElement) => {
                                 const childNodes = mountNewLoopElement(reactiveElement);
 
                                 parentLoopElement.prepend(...childNodes);
@@ -372,8 +338,8 @@ export const reactiveArray = (
                     receiver.pop();
                 }
 
-                newValue.forEach((element: any) => {
-                    receiver.push(element);
+                newValue.forEach((newArrayElement) => {
+                    receiver.push(newArrayElement, configuration);
                 });
             }
 
@@ -389,13 +355,10 @@ export const reactiveArray = (
     };
 
     reactiveArrayProxy.$VindReactiveArray = reactiveArrayProxy.map(
-        (element: any, index: number) => {
+        (element, index: number) => {
             return {
                 element,
-                index: reactiveVariable(
-                    index,
-                    structuredClone(REACTIVE_VARIABLE_REF_CONFIG)
-                ),
+                index: reactiveVariable(index, getCloneForChildrenOfReactiveArray()),
             };
         }
     );
@@ -403,32 +366,35 @@ export const reactiveArray = (
     return reactiveArrayProxy;
 };
 
-export const reactiveVariable = (value: any, configuration: { [key: string]: any } = {}) => {
-    configuration.isReactiveVariable = true;
+// This function serves for all types of reactive variables but "REACTIVE-ARRAY".
+export const reactiveVariable = (definedValue, configuration = {}) => {
+    let type = configuration.variableType || "UNSPECIFIED";
 
-    let type = getReactiveVariableType(configuration);
+    const newVariableReference = generateNewReference(type);
 
-    const variableReference = generateNewReference(type);
+    $VindEngine.watchCallbacks[newVariableReference] = [];
 
-    $VindEngine.watchCallbacks[variableReference] = [];
-
-    if (configuration.isComputed) {
-        runComputedDependencesExtractor(value, variableReference);
+    // If the variable is of type "COMPUTED" the dependency extractor will be run.
+    if (configuration.variableType === "COMPUTED") {
+        runComputedDependencesExtractor(definedValue, newVariableReference);
     }
 
-    configuration.isValueAnActualObject = isValueAnActualObject(value);
-    configuration.isValuePrimitive = isPrimitive(value);
+    const isValueARegularObject = isValueAnActualObject(definedValue);
+    const isValuePrimitive = isPrimitive(definedValue);
 
     const variableProxy = new Proxy(
         {
-            ...(configuration.isValueAnActualObject
-                ? getReactiveVariable(value, configuration)
-                : { value }),
+            // If the value is a regular object, the value will be wrapped in a reactive variable.
+            ...(isValueARegularObject
+                ? getReactiveVariable(definedValue, configuration)
+                : { value: definedValue }),
         },
         {
             get(target, property) {
+                // If the computed dependency extractor is running, the dependencies will be extracted.
                 if ($VindEngine.computedDependencyExtractorRunning) {
-                    $VindEngine.extractedComputedDependencies.add(variableReference);
+                    $VindEngine.extractedComputedDependencies.add(newVariableReference);
+
                     configuration.influences.push(
                         $VindEngine.currentReactiveVariableReference
                     );
@@ -437,11 +403,13 @@ export const reactiveVariable = (value: any, configuration: { [key: string]: any
                 }
 
                 if ($VindEngine.dependencyExtractorRunning) {
-                    $VindEngine.extractedDependencies.add(variableReference);
+                    $VindEngine.extractedDependencies.add(newVariableReference);
                 }
 
                 const propertyValue = target[property];
 
+                // In case of the reactive variable is of type "COMPUTED", the value will be computed
+                // by running the function.
                 return typeof propertyValue === "function"
                     ? propertyValue()
                     : propertyValue;
@@ -450,20 +418,39 @@ export const reactiveVariable = (value: any, configuration: { [key: string]: any
             set(target, property, newValue) {
                 const previousValue = target[property];
 
-                if (configuration.isValuePrimitive && newValue === previousValue) {
+                if (property === "length") {
+                    // Update the array's length via Reflect.
+                    const result = Reflect.set(target, property, newValue, receiver);
+
+                    // If the length changes, trigger any watchers.
+                    if (previousValue !== newValue) {
+                        $VindEngine.watchCallbacks[newVariableReference]?.forEach(
+                            (callback) => {
+                                callback(newValue, previousValue);
+                            }
+                        );
+                    }
+                    return result;
+                }
+
+                // If the value is a primitive and the new value is the same as the previous value, the
+                // value will not be updated in order to prevent unnecessary reactive updates.
+                if (isValuePrimitive && newValue === previousValue) {
                     return true;
                 }
 
                 target[property] = newValue;
 
-                const watchCallbacks = $VindEngine.watchCallbacks[variableReference];
+                const watchCallbacks = $VindEngine.watchCallbacks[newVariableReference];
 
+                // If there are any watch callbacks linked to the reactive variable that is being set, they will be run.
                 if (watchCallbacks.length > 0) {
                     watchCallbacks.forEach((watchSignal: WatchSignal) =>
                         watchSignal(newValue, previousValue)
                     );
                 }
 
+                // Running all the reactive effects that are linked to the reactive variable that is being set.
                 const influencedReferences = configuration.influences;
 
                 influencedReferences.forEach((influencedReference: string) => {
@@ -474,6 +461,7 @@ export const reactiveVariable = (value: any, configuration: { [key: string]: any
                         $VindEngine.reactiveVariables[influencedReference].variableProxy;
 
                     computedWatchCallbacks.forEach((watchSignal: WatchSignal) =>
+                        // TODO: The previous value is the same as the new value, this is not correct.
                         watchSignal(
                             computedReactiveReference.value,
                             computedReactiveReference.value
@@ -481,8 +469,9 @@ export const reactiveVariable = (value: any, configuration: { [key: string]: any
                     );
                 });
 
+                // Starting a recursive chain of reactive updates.
                 $VindEngine.runReactiveEffects({
-                    reference: variableReference,
+                    reference: newVariableReference,
                     configuration,
                 });
 
@@ -491,7 +480,9 @@ export const reactiveVariable = (value: any, configuration: { [key: string]: any
         }
     );
 
-    $VindEngine.reactiveVariables[variableReference] = {
+    // Upon defining a new reactive variable, the variable will be stored in the reactive variables
+    // global object in the Vind engine.
+    $VindEngine.reactiveVariables[newVariableReference] = {
         variableProxy,
         configuration,
     };

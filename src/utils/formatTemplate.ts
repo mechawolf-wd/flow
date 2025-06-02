@@ -8,3 +8,6 @@ export const replaceInterpolationMarkers = (template: string) => {
         "<vind-expression>$1</vind-expression>"
     );
 };
+
+// sluzy do zamiany interpolacji reaktywnych {{ }} markerów na tagi
+// widoczne dla kompilatora HTML

@@ -84,3 +84,5 @@ export const showErrorOverlay = (error) => {
   }
   document.body.append(errorOverlay); // Append the overlay to the body
 };
+
+// Funkcja generujaca widok bledu, jest wywolywana gdy globalny try catch napotka blad

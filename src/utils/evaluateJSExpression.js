@@ -46,3 +46,6 @@ export const evaluateJSExpression = (context, expression) => {
         return "";
     }
 };
+
+// kompilator kodu javascript uzywany w przypadku ewaluacji wartosci z tagow {{ }} (<vind-expression>)
+// lub wartosci atrybutow (w dev-time).

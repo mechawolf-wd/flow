@@ -40,3 +40,5 @@ export function translateEventAttribute(attribute: string) {
 
     return attribute.slice(BINDING_EVENT_ATTRIBUTE_PREFIX.length);
 }
+
+// funkcje tlumaczace reaktywne atrybuty (prefix: ":") lub listenery @

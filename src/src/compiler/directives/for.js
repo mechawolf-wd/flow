@@ -12,7 +12,7 @@ import { templateCompiler } from "../templateCompiler.js";
 import {
     STANDARD_INPUT_TYPES,
     INPUT_TYPES_WITH_CHECKED_ATTRIBUTE,
-} from "../../../configuration/configuration.ts";
+} from "../../../configuration/constants.ts";
 
 export const bindForDirective = (mappedLoopElement, elementContext) => {
     const parentElement = mappedLoopElement.element;
@@ -153,7 +153,7 @@ export const bindForDirective = (mappedLoopElement, elementContext) => {
                         translateBindingAttribute(bindingAttribute);
 
                     loopedElement.setAttribute(
-                        `data-vind-origin-of-ba-${translatedBindingAttribute}`,
+                        `data-vind-origin-of-binding-attribute-${translatedBindingAttribute}`,
                         attributeValue
                     );
 
@@ -205,7 +205,7 @@ export const bindForDirective = (mappedLoopElement, elementContext) => {
                             if (isModelAttributeNested) {
                                 const objectTokens = attributeValue.split(".");
 
-                                const lastProperty = objectTokens.at(-1);
+                                const lastProperty = objectTokens[objectTokens.length - 1];
 
                                 const modelObject = objectTokens.slice(0, -1).join(".");
 
@@ -365,7 +365,8 @@ export const bindForDirective = (mappedLoopElement, elementContext) => {
         const uniqueComponentNamesUsed = Array.from(usedComponentNames);
 
         uniqueComponentNamesUsed.forEach((componentTagName) => {
-            const { componentFunction, componentName } = $VindEngine.componentModules[componentTagName];
+            const { componentFunction, componentName } =
+                $VindEngine.componentModules[componentTagName];
 
             templateCompiler(
                 componentFunction,
@@ -390,7 +391,7 @@ export const bindForDirective = (mappedLoopElement, elementContext) => {
 
     if (arrayReference) {
         $VindEngine.reactiveArraysDOMElements[arrayReference].push({
-            HTMLCollection: parentElement.childNodes,
+            HTMLCollection: parentElement.children,
             parentLoopElement: parentElement,
             mountNewLoopElement,
         });

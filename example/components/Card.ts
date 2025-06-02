@@ -8,35 +8,7 @@ export const Props = {
 
 export const Template = /* HTML */ `
   <div class="card">
-    <div>
-      <h3 class="card-title">{{ cardTitle.value }}</h3>
-      <p class="card-description">{{ cardDescription.value }}</p>
-    </div>
-
-    <Example></Example>
-    
-    <Counter
-      :new-counter="cardTitle.value"
-      :new-id="cardTitle.value"
-      @change-path="changePath('/new-path')"
-    >
-      <Drawer name="message"></Drawer>
-    </Counter>
-
-    <CurrentDate>
-      <Insert name="example-drawer">
-        <h3>{{ currentDate.value }}</h3>
-      </Insert>
-    </CurrentDate>
-
-    <TestingReactivity :reactive-prop="cardTitle.value"></TestingReactivity>
-
-    <input
-      class="card-input"
-      placeholder="Enter title..."
-      :model="cardTitle.value"
-      type="text"
-    />
+    <NewComponent />
   </div>
 `;
 
@@ -59,6 +31,37 @@ export const Card = () => {
     changePath,
   };
 };
+
+
+// <!-- <div>
+// <h3 class="card-title">{{ cardTitle.value }}</h3>
+// <p class="card-description">{{ cardDescription.value }}</p>
+// </div> -->
+
+// <!-- <Example></Example> -->
+
+// <!-- <Counter
+// :new-counter="cardTitle.value"
+// :new-id="cardTitle.value"
+// @change-path="changePath('/new-path')"
+// >
+// <Drawer name="message"></Drawer>
+// </Counter>
+
+// <CurrentDate>
+// <Insert name="example-drawer">
+//   <h3>{{ currentDate.value }}</h3>
+// </Insert>
+// </CurrentDate>
+
+// <TestingReactivity :reactive-prop="cardTitle.value"></TestingReactivity>
+
+// <input
+// class="card-input"
+// placeholder="Enter title..."
+// :model="cardTitle.value"
+// type="text"
+// /> -->
 
 export const Style = /* CSS */ `
   .card {
@@ -108,5 +111,13 @@ export const Style = /* CSS */ `
       border-color: #42b983;
       box-shadow: 0 0 5px rgba(66, 185, 131, 0.5);
       outline: none;
+  }
+
+  .redtext {
+    color: red;
+  }
+
+  .yellowtext {
+    color: yellow;
   }
 `;

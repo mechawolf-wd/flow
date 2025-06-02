@@ -1,5 +1,6 @@
 export const Template = /* HTML */ `
   <AppHeader></AppHeader>
+
   <div class="exampleClass">
     <Card>
       <Insert name="message" :if="$path.value === '/new-path'">

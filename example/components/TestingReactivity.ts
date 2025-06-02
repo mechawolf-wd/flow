@@ -2,7 +2,7 @@ export const Props = {
     reactiveProp: {
         type: String,
         default: 'default asdfohasf',
-        required: true
+        required: false
     }
 }
 
@@ -17,7 +17,8 @@ export const TestingReactivity = () => {
                     d: {
                         e: {
                             f: {
-                                nested: 'Nested value'
+                                // TODO: weird bug, model updating the wron way
+                                nested: 'Nested value',
                             }
                         }
                     }
@@ -40,7 +41,7 @@ export const TestingReactivity = () => {
 export const Template = /* HTML */ `
     <div class="reactivity-container">
         <p class="reactivity-text">{{ test.a.b.c.d.e.f.nested }}</p>
-        <pre class="reactivity-pre">{{ JSON.stringify(test, null, 2) }}</pre>
+        <pre class="reactivity-pre">{{ $stringify(test) }}</pre>
         <input type="text" :model="test.a.b.c.d.e.f.nested" class="" />
     </div>
 `;

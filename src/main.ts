@@ -1,141 +1,158 @@
+// @ts-nocheck
 import { templateCompiler } from "./src/compiler/templateCompiler.js";
 import { showErrorOverlay } from "./utils/showErrorOverlay.js";
 // import { showLoadingOverlay } from "./utils/showLoadingOverlay.js"
 import { generateStore } from "./store/generateStore";
 
-const DEFAULT_ENTRY_POINT_COMPONENT_NAME = "App";
-const DEFAULT_ENTRY_POINT_ELEMENT_ID = "#app";
-
-// @ts-ignore
 const callWithErrorOverlay = (callback) => {
     try {
         callback();
     } catch (error) {
         showErrorOverlay(error);
-        // @ts-ignore
         throw new Error(error);
     }
 };
 
 export const Vind = {
-    // @ts-ignore
     render(renderingCallback) {
-        renderingCallback()
-
-        $VindEngine.storeGenerationQueue.forEach(callWithErrorOverlay);
-
         callWithErrorOverlay(() => {
-            const upperCaseEntryPointComponentName = DEFAULT_ENTRY_POINT_COMPONENT_NAME.toUpperCase();
+            renderingCallback();
 
-            const { componentFunction: defaultEntryPointComponentFunction } = $VindEngine.componentModules[upperCaseEntryPointComponentName];
+            $VindEngine.storeGenerationQueue.forEach(
+                (storeGeneratorCallback: Function) => storeGeneratorCallback()
+            );
+
+            const { componentFunction: defaultEntryPointComponentFunction } =
+                $VindEngine.componentModules["APP"];
 
             templateCompiler(
                 defaultEntryPointComponentFunction,
                 document.body,
                 undefined,
-                DEFAULT_ENTRY_POINT_COMPONENT_NAME,
-                { defaultEntryPointId: DEFAULT_ENTRY_POINT_ELEMENT_ID }
+                "APP",
+                { defaultEntryPointId: "#app" }
             );
         });
     },
-    defineComponents(componentModules = []) {
-        componentModules.forEach((componentModule) => {
-            $VindEngine.defineComponentModule(componentModule);
-        });
-    },
     defineStores(stores = []) {
+        if (!stores.length) {
+            console.warn("Defining stores will not happen.");
+        }
+
         stores.forEach((storeFunction) => {
             $VindEngine.defineStore(storeFunction);
+        });
+    },
+    defineComponents(componentModules = []) {
+        if (!componentModules.length) {
+            console.warn("No components were defined.");
+        }
+
+        componentModules.forEach((componentModule) => {
+            $VindEngine.defineComponentModule(componentModule);
         });
     },
 };
 
 window.$VindEngine = (() => {
-    // @ts-ignore
+    const $stringify: typeof JSON.stringify = (
+        value: any,
+        replacer = null,
+        space = 2
+    ) => {
+        // @ts-expect-error
+        return JSON.stringify(value, replacer, space);
+    };
+    const componentModules = {};
+
+    const templateContentByComponent = {};
+    const propertiesByComponent = {};
+    const eventsByComponent = {};
+    const styleContentByComponent = {};
+
+    const componentsWithStyleMounted = new Set();
+
     const reactiveEffects = [];
     const lastInfluencedEffectReference = "";
 
     const reactiveVariables = {};
     const watchCallbacks = {};
     const stores = {};
-    // @ts-ignore
     const storeGenerationQueue = [];
 
-    const propertiesByComponent = {};
-    const eventsByComponent = {};
-    const templateByComponent = {};
-    const styleByComponent = {};
-    const componentsWithStyleMounted = new Set()
-
-    const componentModules = {};
+    const currentReactiveVariableReference = "";
 
     const computedDependencyExtractorRunning = false;
     const extractedComputedDependencies = new Set();
-    const currentReactiveVariableReference = "";
 
     const dependencyExtractorRunning = false;
     const extractedDependencies = new Set();
 
     const reactiveArraysDOMElements = {};
 
-    // Compiler
-    const ALLOWED_HTML_TAGS = ["Insert", "Drawer", "vind-expression"];
-
     // Effects
-    const queueReactiveEffect = (
-        // @ts-ignore
-        newReactiveEffect,
-        configuration = { runOnQueue: true, predefinedReferences: [] }
-    ) => {
+    const queueReactiveEffect = (reactiveEffect) => {
+        // Start dependency extraction:
         $VindEngine.dependencyExtractorRunning = true;
 
-        newReactiveEffect.references = new Set();
+        reactiveEffect.references = new Set();
 
-        const predefinedReferences = configuration.predefinedReferences
+        // Run the effect:
+        reactiveEffect.effect();
 
-        if (configuration.runOnQueue === undefined || configuration.runOnQueue) {
-            newReactiveEffect.effect();
-        }
-
+        // Check if running the effect captured any dependencies:
         if ($VindEngine.extractedDependencies.size > 0) {
-            newReactiveEffect.references = new Set([...$VindEngine.extractedDependencies]);
+            const extractedDependencies = new Set([
+                ...$VindEngine.extractedDependencies,
+            ]);
 
-            $VindEngine.extractedDependencies.clear()
+            // Assign extracted dependencies to the 'references' property of the reactive effect,
+            // which will later trigger the effect's callback if notified.
+            reactiveEffect.references = Array.from(extractedDependencies);
+
+            // Clear extracted dependencies:
+            $VindEngine.extractedDependencies.clear();
         }
 
-        if (predefinedReferences?.length > 0) {
-            predefinedReferences.forEach((reference) => {
-                newReactiveEffect.references.add(reference);
-            });
-        }
+        // Push the new reactive effect into the globally accessible reactiveEffects array:
+        reactiveEffects.push(reactiveEffect);
 
-        newReactiveEffect.references = Array.from(newReactiveEffect.references);
-
-        reactiveEffects.push(newReactiveEffect);
-
+        // Stop dependency extraction:
         $VindEngine.dependencyExtractorRunning = false;
     };
 
+    /**
+     * Executes reactive effects based on a given reactive variable reference and its configuration.
+     * Prevents infinite loops by tracking the last influenced effect reference.
+     *
+     * @param {Object} options - The options object containing the reference and configuration.
+     * @param {any} options.reference - The reactive variable reference that may trigger effects.
+     * @param {Object} options.configuration - Configuration settings for handling influenced references.
+     */
     const runReactiveEffects = ({
-        // @ts-ignore
         reference: reactiveVariableReference,
-        configuration = {},
+        configuration,
     }) => {
-        if ($VindEngine.lastInfluencedEffectReference === reactiveVariableReference) return;
+        // Return if the current reference is already processed to avoid infinite loops.
+        if (
+            $VindEngine.lastInfluencedEffectReference === reactiveVariableReference
+        ) {
+            return;
+        } else {
+            // Set the last influenced effect reference to the current reference.
+            $VindEngine.lastInfluencedEffectReference = reactiveVariableReference;
+        }
 
-        $VindEngine.lastInfluencedEffectReference = reactiveVariableReference;
-
-        // @ts-ignore
-        reactiveEffects.forEach(({ references, effect }) => {
-            // @ts-ignore
+        reactiveEffects.forEach(({ references, effect: highestOrderEffect }) => {
             references.forEach((effectReference) => {
                 if (effectReference === reactiveVariableReference) {
-                    effect();
+                    // Run the highest-order effect function if the reference matches.
+                    highestOrderEffect();
 
-                    // @ts-ignore
+                    // Recursively run effects for each influenced reference.
                     configuration.influences.forEach((influencedReference) => {
-                        // @ts-ignore
-                        const influencedReferenceConfiguration = reactiveVariables[reactiveVariableReference].configuration || {};
+                        const influencedReferenceConfiguration =
+                            reactiveVariables[reactiveVariableReference].configuration || {};
 
                         runReactiveEffects({
                             reference: influencedReference,
@@ -144,28 +161,26 @@ window.$VindEngine = (() => {
                     });
                 }
             });
-        }
-        );
+        });
 
+        // Clear the last influenced effect reference after processing.
         $VindEngine.lastInfluencedEffectReference = "";
     };
 
-    // @ts-ignore
     const defineComponentModule = (componentModule, customComponentName = "") => {
-        // TODO: This 'find' instruction is not checking whether the found 'function' is an actual component.
-        let componentFunction: Function | unknown = Object.values(componentModule).find(
-            (value) => typeof value === "function"
-        );
+        let componentFunction: Function | unknown = Object.values(
+            componentModule
+        ).find((value) => typeof value === "function");
 
-        // @ts-ignore
-        const upperCaseComponentName = (customComponentName || componentFunction.name).toUpperCase();
+        const upperCaseComponentName = // @ts-expect-error
+            (customComponentName || componentFunction.name).toUpperCase();
 
-        ALLOWED_HTML_TAGS.push((componentFunction as Function).name)
-
-        $VindEngine.templateByComponent[upperCaseComponentName] =
+        // These keys will always be present in the component module
+        // even if they are not defined by the user in a component file.
+        $VindEngine.templateContentByComponent[upperCaseComponentName] =
             componentModule["Template"] || ``;
 
-        $VindEngine.styleByComponent[upperCaseComponentName] =
+        $VindEngine.styleContentByComponent[upperCaseComponentName] =
             componentModule["Style"] || ``;
 
         $VindEngine.propertiesByComponent[upperCaseComponentName] =
@@ -174,41 +189,43 @@ window.$VindEngine = (() => {
         $VindEngine.eventsByComponent[upperCaseComponentName] =
             componentModule["Emits"] || [];
 
-        // @ts-ignore
+        // Saving the component module in the global componentModules object.
+        // So that it can be accessed later when rendering components when needed.
         componentModules[upperCaseComponentName] = {
             componentFunction,
-            // @ts-ignore
             componentName: customComponentName || componentFunction.name,
         };
     };
 
-    // @ts-ignore
-    const defineStore = (storeFunction) => {
-        const storeName = storeFunction.name;
+    const defineStore = (storeDefinitionFunction) => {
+        const storeName = storeDefinitionFunction.name;
 
-        const storeGenerationFunction = generateStore(storeName, storeFunction);
+        const storeGenerationFunction = generateStore(
+            storeName,
+            storeDefinitionFunction
+        );
 
         storeGenerationQueue.push(storeGenerationFunction);
     };
 
     return {
+        $stringify,
+
         componentModules,
         defineComponentModule,
 
-        templateByComponent,
+        templateContentByComponent,
         propertiesByComponent,
         eventsByComponent,
-        styleByComponent,
+        styleContentByComponent,
         componentsWithStyleMounted,
 
         reactiveVariables,
         reactiveArraysDOMElements,
         stores,
-        // @ts-ignore
         storeGenerationQueue,
         defineStore,
 
-        // @ts-ignore
         effects: reactiveEffects,
         lastInfluencedEffectReference,
         watchCallbacks,
@@ -221,14 +238,11 @@ window.$VindEngine = (() => {
 
         dependencyExtractorRunning,
         extractedDependencies,
-
-        ALLOWED_HTML_TAGS
     };
 })();
 
 // * Temporary implemetation of the router aka. "the real router"
-// @ts-ignore
-const routerStore = ({ ref }) => {
+const routerStoreDefinition = ({ ref }) => {
     const path = ref("/");
 
     return {
@@ -236,5 +250,9 @@ const routerStore = ({ ref }) => {
     };
 };
 
-const routerStoreGenerationFunction = generateStore("routerStore", routerStore as any);
+const routerStoreGenerationFunction = generateStore(
+    "routerStore",
+    routerStoreDefinition
+);
+
 $VindEngine.storeGenerationQueue.push(routerStoreGenerationFunction);

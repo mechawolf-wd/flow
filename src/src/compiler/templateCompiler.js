@@ -23,11 +23,14 @@ import {
     LIFECYCLE_CALLBACKS_TEMPLATE,
     STANDARD_INPUT_TYPES,
     INPUT_TYPES_WITH_CHECKED_ATTRIBUTE,
-} from "../../configuration/configuration.ts";
-import DOMPurify from "dompurify";
+} from "../../configuration/constants.ts";
 
 const compilerMacros = {
     ref: (value) => {
+        if (Object.keys(value).includes("value")) {
+            throw new Error('Ref macro function must not contain "value" key.');
+        }
+
         if (Array.isArray(value)) {
             return reactiveArray(
                 value,
@@ -41,6 +44,12 @@ const compilerMacros = {
         );
     },
     computed: (callback) => {
+        if (typeof callback !== "function") {
+            throw new Error(
+                `Computed macro function must have function as its parameter.`
+            );
+        }
+
         return reactiveVariable(
             callback,
             structuredClone(REACTIVE_VARIABLE_COMPUTED_CONFIG)
@@ -115,25 +124,25 @@ export function compileComponent(
     const lifecycleCallbacks = structuredClone(LIFECYCLE_CALLBACKS_TEMPLATE);
     const properties = componentParentElement.$VindNode.properties;
 
-    // * Defining component's destructurable properties.
+    // Defining component's destructurable properties.
     const componentInternalContext = {
         ...compilerMacros,
         onMounted: (callback) => {
-            if (!callback || typeof callback !== 'function') {
-                return;
+            if (typeof callback !== "function") {
+                throw new Error("onMounted's callback must be a function.");
             }
 
             lifecycleCallbacks.onMounted = callback;
         },
         onBeforeMount: (callback) => {
-            if (!callback || typeof callback !== 'function') {
-                return;
+            if (typeof callback !== "function") {
+                throw new Error("onBeforeMount's callback must be a function");
             }
 
             lifecycleCallbacks.onBeforeMount = callback;
         },
         $emit: (eventName, payload, eventInitDict = { bubbles: true }) => {
-            if (!eventName || typeof eventName !== 'string') {
+            if (!eventName || typeof eventName !== "string") {
                 return;
             }
 
@@ -148,16 +157,14 @@ export function compileComponent(
         $props: componentParentElement.$VindNode.properties,
     };
 
-    // * Binding props and transforming them into reactive variables.
+    // Binding props and transforming them into reactive variables.
     let componentProperties =
-        $VindEngine.propertiesByComponent[componentParentElement.tagName] || []; // *  - in case the parent element's tagName is 'DIV'.
+        $VindEngine.propertiesByComponent[componentParentElement.tagName] || {}; //  - in case the parent element's tagName is 'DIV'.
 
     Object.entries(componentProperties).forEach(
         ([propertyKey, propertyConfiguration]) => {
-            const kebabCasedPropertyKey = camelToKebabCase(propertyKey);
-
             const attributeExpression = componentParentElement.getAttribute(
-                `data-vind-origin-of-ba-${kebabCasedPropertyKey}`
+                `data-vind-origin-of-binding-attribute-${propertyKey}`
             );
 
             const propertyReactiveVariable = reactiveVariable(
@@ -169,22 +176,21 @@ export function compileComponent(
 
             // componentProperties.isValid = reactiveVariable(false, )
 
+            if (
+                propertyConfiguration.required ||
+                typeof propertyConfiguration.required === "undefined"
+            ) {
+                console.warn(
+                    `Property "${propertyKey}" of component "${componentName}" is required but is either unused or null.`
+                );
+            }
+
             $VindEngine.queueReactiveEffect({
                 effect: () => {
                     const evaluatedJSExpression = evaluateJSExpression(
                         parentContext,
                         attributeExpression
                     );
-
-                    if (
-                        evaluatedJSExpression === null &&
-                        (propertyConfiguration.required ||
-                            typeof propertyConfiguration.required === "undefined")
-                    ) {
-                        console.warn(
-                            `Property "${propertyKey}" of component "${componentName}" is required but is either unused or null.`
-                        );
-                    }
 
                     if (
                         evaluatedJSExpression !== null &&
@@ -218,8 +224,8 @@ export function compileComponent(
         }
     );
 
-    // * Calling a component function with the context methods. The component function returns a context object.
-    // * It is fine to think of it as Vue's onCreated lifecycle hook.
+    // Calling a component function with the context methods. The component function returns a context object.
+    // It is fine to think of it as Vue's onCreated lifecycle hook.
     const stringifiedComponentFunction = componentFunction.toString();
 
     const evaluatedComponentFunction = evaluateJSExpression(
@@ -232,46 +238,36 @@ export function compileComponent(
         evaluatedComponentFunction()
     );
 
-    // * Setting properties on componentContext that can be later referenced in templates by preprending them with '$' sign.
+    // Setting properties on componentContext that can be later referenced in templates by preprending them with '$' sign.
+    componentContext.$stringify = $VindEngine.$stringify;
     componentContext.$stores = $VindEngine.stores;
     componentContext.$router = $VindEngine.stores.routerStore;
     componentContext.$path = $VindEngine.stores.routerStore.path;
     componentContext.$emit = (eventName) => () =>
         componentInternalContext.$emit(eventName);
 
-    // * Setting componentParentElement's innerHTML to the component's template and removing the 'template' property.
+    // Setting componentParentElement's innerHTML to the component's template and removing the 'template' property.
     const componentTemplate =
-        $VindEngine.templateByComponent[upperCaseComponentName] || "";
+        $VindEngine.templateContentByComponent[upperCaseComponentName] || "";
 
-    // * Invoking onBeforeMount lifecycle hook if defined.
+    // Invoking onBeforeMount lifecycle hook if defined.
     lifecycleCallbacks.onBeforeMount?.();
 
-    // * After running this instruction component gets its HTML content set.
-
-    // componentParentElement.innerHTML = DOMPurify.sanitize(
-    //     replaceInterpolationMarkers(componentTemplate),
-    //     {
-    //         ADD_TAGS: $VindEngine.ALLOWED_HTML_TAGS,
-    //         ALLOWED_ATTR: ['*'],
-    //         CUSTOM_ELEMENT_HANDLING: {
-    //             tagNameCheck: false,
-    //         },
-    //     }
-    // );
-
-    componentParentElement.innerHTML = replaceInterpolationMarkers(componentTemplate)
+    // After running this instruction component gets its HTML content set.
+    componentParentElement.innerHTML =
+        replaceInterpolationMarkers(componentTemplate);
 
     const componentStyle =
-        $VindEngine.styleByComponent[upperCaseComponentName] || "";
+        $VindEngine.styleContentByComponent[upperCaseComponentName] || "";
 
-    // * Grabbing all inner elements of the componentParentElement that has just been created by innerHTML property.
+    // Grabbing all inner elements of the componentParentElement that has just been created by innerHTML property.
     let componentInnerElements = [
         ...componentParentElement.querySelectorAll(
             "*:not([data-vind-compiled-component]):not([\\:for] *)"
         ),
     ];
 
-    // * Formatting every inner element in order for easier manipulation.
+    // Formatting every inner element in order for easier manipulation.
     let mappedInnerElements = componentInnerElements.map((element) => {
         const attributes = [...element.attributes];
 
@@ -281,7 +277,7 @@ export function compileComponent(
         };
     });
 
-    // * Determining component drawers.
+    // Determining component drawers.
     const drawerElements = [...componentParentElement.querySelectorAll("Drawer")];
     const mappedInnerDrawerTags = drawerElements.map((drawerElement) => {
         const drawerName = drawerElement.getAttribute("name");
@@ -303,13 +299,15 @@ export function compileComponent(
 
     const componentNamesUsed = new Set();
 
-    // * The famous "mounting" step. This is where the magic happens.
+    // The famous "mounting" step. This is where the magic happens.
     mappedInnerElements.forEach((mappedElement) => {
         const element = mappedElement.element;
 
         const componentModule = $VindEngine.componentModules[element.tagName];
 
-        // * insertTags
+        // Testing if the element of the current loop iteration has its corresponding defined component.
+        // div => fail
+        // eg. Card => pass
         if (componentModule) {
             componentNamesUsed.add(element.tagName);
 
@@ -326,8 +324,8 @@ export function compileComponent(
             element.$VindNode.mappedInnerInsertTags = mappedInnerInsertTags;
         }
 
-        // * eventAttributes
-        // * Mounting event attributes that start with '@' character.
+        // eventAttributes
+        // Mounting event attributes that start with '@' character.
         mappedElement.attributes.eventAttributes.forEach(
             ({ name: eventBindingAttribute, value: attributeValue }) => {
                 const evaluatedCallaback = (event) =>
@@ -340,19 +338,19 @@ export function compileComponent(
             }
         );
 
-        // * bindingAttributes
-        // * Mounting binding attributes that start with ':' character.
+        // bindingAttributes
+        // Mounting binding attributes that start with ':' character.
         mappedElement.attributes.bindingAttributes.forEach(
             ({ name: bindingAttribute, value: attributeValue }) => {
                 const translatedBindingAttribute =
                     translateBindingAttribute(bindingAttribute);
 
                 element.setAttribute(
-                    `data-vind-origin-of-ba-${translatedBindingAttribute}`,
+                    `data-vind-origin-of-binding-attribute-${translatedBindingAttribute}`,
                     attributeValue
                 );
 
-                // * Note: for loop is mounted separately from other elements and has its own mounting (copied) step.
+                // Note: for loop is mounted separately from other elements and has its own mounting (copied) step.
                 // TODO: This may include doubled mounting of loop's attributes. Check if it is necessary.
                 if (bindingAttribute === ":for") {
                     if (componentModule) {
@@ -384,7 +382,7 @@ export function compileComponent(
                     return;
                 }
 
-                // * Mounting input elements' value and checked attributes.
+                // Mounting input elements' value and checked attributes.
                 const isAnInputElement = element.tagName === "INPUT";
 
                 const inputType = element.getAttribute("type") || "text";
@@ -403,7 +401,7 @@ export function compileComponent(
                         if (isModelAttributeNested) {
                             const objectTokens = attributeValue.split(".");
 
-                            const lastProperty = objectTokens.at(-1);
+                            const lastProperty = objectTokens[objectTokens.length - 1];
 
                             const modelObject = objectTokens.slice(0, -1).join(".");
 
@@ -520,7 +518,7 @@ export function compileComponent(
                     }
                 }
 
-                // * Mounting any other attribute that is not a directive.
+                // Mounting any other attribute that is not a directive.
                 $VindEngine.queueReactiveEffect({
                     effect: () => {
                         const evaluatedExpression = evaluateJSExpression(
@@ -538,7 +536,7 @@ export function compileComponent(
         );
     });
 
-    // * This is used to bind reactive variables to the DOM and evaluate expressions inside {{ }} delimiters.
+    // This is used to bind reactive variables to the DOM and evaluate expressions inside {{ }} delimiters.
     const interpolationElements = [
         ...componentParentElement.querySelectorAll("vind-expression"),
     ];
@@ -563,15 +561,13 @@ export function compileComponent(
             },
         });
     });
-
-    // * Calling the onMounted lifecycle callback if it exists
-
     if (!$VindEngine.componentsWithStyleMounted.has(upperCaseComponentName)) {
         mountStyling(componentStyle, upperCaseComponentName);
 
         $VindEngine.componentsWithStyleMounted.add(upperCaseComponentName);
     }
 
+    // Calling the onMounted lifecycle callback if it exists
     lifecycleCallbacks.onMounted?.();
 
     return {

@@ -1,7 +1,8 @@
+// @ts-nocheck
 import { evaluateJSExpression } from "../../../utils/evaluateJSExpression.js";
 
-const bindStyleObject = (element: HTMLElement, classExpression: {}) => {
-    Object.entries(classExpression).forEach(([key, value]) => {
+const bindStyleObject = (element: HTMLElement = {}, styleExpression = {}) => {
+    Object.entries(styleExpression).forEach(([key, value]) => {
         $VindEngine.queueReactiveEffect({
             effect: () => {
                 let computedPopertyValue = "";
@@ -10,7 +11,7 @@ const bindStyleObject = (element: HTMLElement, classExpression: {}) => {
                     computedPopertyValue = value();
                 }
 
-                element.style[key as any] = String(computedPopertyValue);
+                element.style[key] = String(computedPopertyValue);
             },
         });
     });
@@ -18,7 +19,10 @@ const bindStyleObject = (element: HTMLElement, classExpression: {}) => {
     return;
 };
 
-export const bindStyleDirective = (element: HTMLElement, componentContext: {}) => {
+export const bindStyleDirective = (
+    element: HTMLElement,
+    componentContext: {}
+) => {
     const styleAttributeValue = element.getAttribute(":style");
 
     const styleExpression = evaluateJSExpression(

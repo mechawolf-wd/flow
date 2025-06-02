@@ -6,10 +6,12 @@ export const Props = {
         validator: (newId: string) => {
             // return newId.length < 2;
         },
+        required: false,
     },
     newCounter: {
         type: String,
         default: "Default value of newCounter.",
+        required: false,
     },
 };
 
@@ -32,14 +34,6 @@ export const Template = /* HTML */ `
       >
         {{ demoText }}
       </button>
-    </div>
-
-    <div :for="human of humans">
-      <CurrentDate>
-        <Insert name="example-drawer">
-          <h3>{{ $router.path.value }}</h3>
-        </Insert>
-      </CurrentDate>
     </div>
 
     <Drawer name="message"></Drawer>
@@ -124,16 +118,17 @@ export const Counter = () => {
 
     setTimeout(() => {
         humans.unshift({
-            name: "Last",
-            age: 99,
+            name: "Newest item ✅",
+            age: 234,
             status: "😊",
             cats: ["Furr", "Puff", "Catto"],
         });
     }, 500);
 
+    // another example of arrays
     setTimeout(() => {
-        humans.sort((a: any, b: any) => a.age - b.age)
-    }, 1000);
+        humans[0].name = "Changed name";
+    }, 2000);
 
     return {
         counter,
