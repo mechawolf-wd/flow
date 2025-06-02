@@ -16,16 +16,16 @@ const callWithErrorOverlay = (callback) => {
 export const Vind = {
     render(renderingCallback) {
         callWithErrorOverlay(() => {
-            renderingCallback();
+            renderingCallback(); // do tego ma byc opis
 
             $VindEngine.storeGenerationQueue.forEach(
-                (storeGeneratorCallback: Function) => storeGeneratorCallback()
+                (storeGeneratorCallback: Function) => storeGeneratorCallback() // do tego ma byc opis
             );
 
             const { componentFunction: defaultEntryPointComponentFunction } =
-                $VindEngine.componentModules["APP"];
+                $VindEngine.componentModules["APP"]; // do tego ma byc opis
 
-            templateCompiler(
+            templateCompiler( // do tego ma byc opis
                 defaultEntryPointComponentFunction,
                 document.body,
                 undefined,
@@ -34,7 +34,7 @@ export const Vind = {
             );
         });
     },
-    defineStores(stores = []) {
+    defineStores(stores = []) { // do tego ma byc opis
         if (!stores.length) {
             console.warn("Defining stores will not happen.");
         }
@@ -43,7 +43,7 @@ export const Vind = {
             $VindEngine.defineStore(storeFunction);
         });
     },
-    defineComponents(componentModules = []) {
+    defineComponents(componentModules = []) { // do tego ma byc opis
         if (!componentModules.length) {
             console.warn("No components were defined.");
         }
